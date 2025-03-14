@@ -1,0 +1,35 @@
+/* Create two unequal columns that floats next to each other */
+.column {
+    float: left;
+}
+
+
+/* Footer width 2 */
+
+.footer-left {
+    width: 93%;
+}
+
+.footer-right {
+    width: 7%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+table, td, th {
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 5px;
+}
