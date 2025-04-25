@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>
+    <title>Programming Lab 3</title>
+  </head>
+
+  <body>
+    <div style="text-align: center;">
+      <h1>Programming Lab 3: First-Order Unification</h1>
+
+      <p><b>Submission deadline:  Wednesday, July 6, 2016 (11:59 p.m.)</b></p>
+    </div>
+
+    <h3>TA: Diego Alejandro Montoya-Zapata</h3>
+
+    <h3>Introduction</h3>
+
+    <div style="text-align: left;">
+      <p>The aim of this programming assignment is to implement
+      unification in first-order logic (FOL). Unification is one
+      of the main steps to perform resolution in FOL.</p>
+
+      <p>A substitution of terms for variables is a set</p>
+
+      <pre>
+        <tt>&#123;x<sub>1</sub> &larr; t<sub>1</sub>, ..., x<sub>n</sub> &larr; t<sub>n</sub>&#125;</tt>
+      </pre>
+
+      <p>where each <tt>x<sub>i</sub></tt> is a distinct variable and each
+      <tt>t<sub>i</sub></tt> is a term which is not identical to the
+      corresponding variable <tt>x<sub>i</sub></tt>. The <tt>empty
+      substution</tt> is the empty set [Ben-Ari (2012), Definition 10.4].</p>
+
+      <p>Let <tt>U = &#123;A<sub>1</sub>, ..., A<sub>n</sub>&#125;</tt> be a
+      set of atoms. A <tt>unifier &theta;</tt> is a substitution such that:</p>
+      <pre>
+        <tt>A<sub>1</sub>&theta; = ... = A<sub>n</sub>&theta;.</tt>
+      </pre>
+
+      <p>A <tt>most general unifier</tt> (MGU) for <tt>U</tt> is a unifier
+      <tt>&mu;</tt> such that any unifier <tt>&theta;</tt> of <tt>U</tt> can
+      be expressed as:</p>
+
+      <pre>
+        <tt>&theta; = &mu;&lambda;</tt>
+      </pre>
+
+     <p>for some substitution <tt>&lambda;</tt> [Ben-Ari (2012),
+     Definition 10.11].</p>
+    </div>
+
+    <h3>Assignment (80%)</h3>
+
+    <ul style="text-align: left;">
+      <li>
+        (35%) Write a Haskell or Prolog program which finds the MGU (if exists)
+        of two atoms in FOL. In case the MGU does not
+        exists, the program must report it.
+
+      <ul>
+        <li>
+          <p> Haskell: The module <tt>FOL</tt> defines a data type for
+          the atoms in FOL. This module can be found in the
+           <a href="https://github.com/">GitHub</a>  repository <a href=
+        "https://github.com/asr/logic-cm0845/tree/master/lab3">logic-cm0845-
+        lab3</a>.
+          </p>
+
+          Using the module <tt>FOL</tt>, define a function
+          <pre>
+            <tt>unify :: Atom -> Atom -> [Atom]</tt>
+          </pre>
+          that returns a list with the atoms obtained after performing the
+          substitution expressed by the MGU of the two given atoms in FOL.
+        </li>
+
+        <li>
+          Prolog: write a Prolog predicate <tt>unify(A1,A2,B)</tt> where
+          <tt>B</tt> is a list with the atoms obtained after performing the
+          substitution expressed by the MGU of <tt>A1</tt> and <tt>A2</tt>.
+        </li>
+      </ul>
+      </li>
+
+      <li>(35%) Oral exposition. Answers and explanations given in the
+      revision of the lab.</li>
+
+      <li>(10%) Annotate your source code in a way that explains your
+      solution for the assignment.</li>
+    </ul>
+
+    <h3>Clean code (10%)</h3>
+
+    <div style="text-align: left;">
+      Before submitting your code, clean it up! Clean code:
+
+      <ul>
+        <li>Does not have long lines (at most 80 columns).</li>
+
+        <li>Has a consistent layout.</li>
+
+        <li>Has type signatures for everything.</li>
+
+        <li>Has good comments.</li>
+
+        <li>Has no junk (unused code, commented code, unnecessary
+        code).</li>
+
+        <li>Has no overly complicated function definitions.</li>
+
+        <li>Does not contain any repetitive code.</li>
+
+        <li>Has no unnecessary spaces at the end of a line, or empty
+        lines at the end of a file.</li>
+      </ul>
+    </div>
+
+    <h3>Submission (10%)</h3>
+
+    <div style="text-align: left;">
+      <p>Submission is electronic. Send an email to
+      <tt>asr(at)eafit(dot)edu(dot)co</tt> and
+      <tt>dmonto39(at)eafit(dot)edu(dot)co</tt> and attach a
+      compressed file (.zip or .tar.gz) with your solution.</p>
+
+      <p>Your submission has to include the following:</p>
+
+      <ul>
+        <li><code>Unification.hs</code> or <code>unification.pl</code>,
+        a file with your solution for the assignment.</li>
+
+        <li>
+          <code>README.txt</code> (or <code>README.md</code>), a file
+          containing at least the following information:
+
+          <ul>
+            <li>The name of your program.</li>
+
+            <li>Your name.</li>
+
+            <li>A general description of your program.</li>
+
+            <li>Information on how to use your program.</li>
+
+            <li>A detailed description of the output format of your program.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <h3>Notes</h3>
+
+    <ul style="text-align: left;">
+      <li>The programming lab is individual.</li>
+
+      <li>In case you decide to use <a href=
+        "http://www.haskell.org">Haskell</a>:
+        <ul style="text-align: left;">
+          <li>You are to use the <a
+          href="http://www.haskell.org/platform/">Haskell Platform</a> ≥
+          7.10.2-a or <a href="https://www.haskell.org/ghc/">GHC</a> ≥
+          7.10.2.</li>
+
+          <li>You can add class constraints to the type signature of
+          your functions if you need them.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Bibliography</h3>
+
+    <p>Ben-Ari, Mordechai (2012). Mathematical Logic for Computer
+    Science. 3rd ed. Springer.</p>
+
+    <hr/>
+
+    <table style="width:100%">
+      <tr>
+        <td><a href=
+        "https://asr.github.io/courses/cm0845-logic/">CM0845
+        Logic</a></td>
+
+        <td style="text-align:right;"><a
+        href="http://validator.w3.org/check?uri=referer"><img
+        src="http://www.w3.org/Icons/valid-xhtml11" alt="Valid XHTML
+        1.1" height="31" width="88" /></a></td>
+      </tr>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>
+    <title>Programming Lab 2</title>
+  </head>
+
+  <body>
+    <div style="text-align: center;">
+      <h1>Programming Lab 2: Prenex Conjunctive Normal Form</h1>
+
+      <p><b>Submission deadline: Wednesday, May 11, 2016 (11:59 p.m.)</b></p>
+    </div>
+
+    <h3>TA: Diego Alejandro Montoya-Zapata</h3>
+
+    <h3>Introduction</h3>
+
+    <div style="text-align: left;">
+      <p>The aim of this programming assignment is to translate
+      first-order logic (FOL) formulae to the prenex conjunctive
+      normal form (PCNF).</p>
+
+      <p>A formula is in PCNF if it is of the form</p>
+
+      <pre>
+        <tt>Q<sub>1</sub>x<sub>1</sub> ... Q<sub>n</sub>x<sub>n</sub> M</tt>
+      </pre>
+
+      <p>where the <tt>Q<sub>i</sub></tt> are quantifiers and
+      <tt>M</tt> is a quantifier-free formula in conjunctive normal
+      form. The (possibly empty) sequence
+      <tt>Q<sub>1</sub>x<sub>1</sub>
+      ... Q<sub>n</sub>x<sub>n</sub></tt> is called the prefix and
+      <tt>M</tt> is called the matrix [Ben-Ari (2012), Definition 9.9
+      and van Dalen (2013), Definition 3.5.10]. Every formula in FOL
+      can be transformed into an equivalent formula in PCNF [van Dalen
+      (2013), Theorem 3.5.11].</p>
+    </div>
+
+    <h3>Assignment (80%)</h3>
+
+    <ul style="text-align: left;">
+      <li>
+        Download the <a href="https://github.com/">GitHub</a>
+        repository <a href=
+        "https://github.com/asr/logic-cm0845/tree/master/lab2">logic-cm0845-
+        lab2</a>.
+
+        <ul>
+          <li>The module <code>FOL</code> defines a data type for the
+          formulae in FOL.</li>
+
+          <li>The module <code>Examples</code> gives some examples of
+          the data type <code>Formula</code>.</li>
+
+          <li>The module <code>CNF</code> has implementations of some
+          steps to get the CNF from a formula in predicate logic.</li>
+
+          <li>The module <code>PCNF</code> has some help to solve the
+          programming lab.</li>
+        </ul>
+      </li>
+
+      <li>
+        (35%) Using the module <code>FOL</code>, define a function
+        <pre>
+          pcnf :: Formula -&gt; Formula
+        </pre>
+        that returns the PCNF of a given formula in FOL.<br/> You can
+        use the modules <code>CNF</code> and <code>PCNF</code>,
+        although it is not mandatory.  If you decide to use these
+        modules, fill in the blanks by replacing the
+        <b><code>undefined</code></b> in the module <code>PCNF</code>
+        with code of your own.
+      </li>
+
+      <li>(35%) Oral exposition. Answers and explanations given in the
+      revision of the lab.</li>
+
+      <li>(10%) Annotate your source code in a way that explains your
+      solution for the assignment. Improve it with <a href=
+      "https://github.com/ndmitchell/hlint#readme">HLint</a>.</li>
+    </ul>
+
+    <h3>Clean code (10%)</h3>
+
+    <div style="text-align: left;">
+      Before submitting your code, clean it up! Clean code:
+
+      <ul>
+        <li>Does not have long lines (at most 80 columns).</li>
+
+        <li>Has a consistent layout.</li>
+
+        <li>Has type signatures for everything.</li>
+
+        <li>Has good comments.</li>
+
+        <li>Has no junk (unused code, commented code, unnecessary
+        code).</li>
+
+        <li>Has no overly complicated function definitions.</li>
+
+        <li>Does not contain any repetitive code.</li>
+
+        <li>Has no unnecessary spaces at the end of a line, or empty
+        lines at the end of a file.</li>
+      </ul>
+    </div>
+
+    <h3>Submission (10%)</h3>
+
+    <div style="text-align: left;">
+      <p>Submission is electronic. Send an email to
+      <tt>asr(at)eafit(dot)edu(dot)co</tt> and
+      <tt>dmonto39(at)eafit(dot)edu(dot)co</tt> and attach a
+      compressed file (.zip or .tar.gz) with your solution.</p>
+
+      <p>Your submission has to include the following:</p>
+
+      <ul>
+        <li><code>PCNF.hs</code>, a <a href=
+        "http://www.haskell.org">Haskell</a> module file with your
+        solution for the assignment.</li>
+
+        <li>
+          <code>README.txt</code> (or <code>README.md</code>), a file
+          containing at least the following information:
+
+          <ul>
+            <li>The name of your program.</li>
+
+            <li>Your name.</li>
+
+            <li>A general description of your program.</li>
+
+            <li>Information on how to use your program.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <h3>Notes</h3>
+
+    <ul style="text-align: left;">
+      <li>The programming lab is individual.</li>
+
+      <li>You are to use the <a
+      href="http://www.haskell.org/platform/">Haskell Platform</a> ≥
+      7.10.2-a or <a href="https://www.haskell.org/ghc/">GHC</a> ≥
+      7.10.2.</li>
+
+      <li>You can add class constraints to the type signature of
+      <code>pcnf</code> if you need them.</li>
+    </ul>
+
+    <h3>Bibliography</h3>
+
+    <p>Ben-Ari, Mordechai (2012). Mathematical Logic for Computer
+    Science. 3rd ed. Springer.</p>
+
+    <p>van Dalen, Dirk (2013). Logic and Structure. 5th
+    ed. Springer.</p>
+
+    <hr/>
+
+    <table style="width:100%">
+      <tr>
+        <td><a href=
+        "https://asr.github.io/courses/cm0845-logic/">CM0845
+        Logic</a></td>
+
+        <td style="text-align:right;"><a
+        href="http://validator.w3.org/check?uri=referer"><img
+        src="http://www.w3.org/Icons/valid-xhtml11" alt="Valid XHTML
+        1.1" height="31" width="88" /></a></td>
+      </tr>
+    </table>
+  </body>
+</html>
