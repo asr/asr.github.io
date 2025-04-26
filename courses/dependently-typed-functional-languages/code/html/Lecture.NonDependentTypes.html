@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html><head><meta charset="utf-8"><title>Lecture.NonDependentTypes</title><link rel="stylesheet" href="Agda.css"></head><body><pre class="Agda"><a id="1" class="Comment">------------------------------------------------------------------------------</a>
+<a id="80" class="Comment">-- Dependently typed functional languages - 2011-01</a>
+
+<a id="133" class="Comment">-- Some non-dependent types used in functional languages</a>
+<a id="190" class="Comment">------------------------------------------------------------------------------</a>
+
+<a id="270" class="Comment">-- References:</a>
+<a id="285" class="Comment">--</a>
+<a id="288" class="Comment">-- Pierce, Benjamin C. (2002). Types and Programming Languages. MIT</a>
+<a id="356" class="Comment">-- Press.</a>
+
+<a id="367" class="Comment">-- Wikipedia article on algebraic data types.</a>
+
+<a id="414" class="Comment">------------------------------------------------------------------------------</a>
+<a id="493" class="Comment">-- To process an Agda file use C-c C-l.</a>
+
+<a id="534" class="Comment">-- To find out how to write a given character, position the cursor over</a>
+<a id="606" class="Comment">-- the character and press C-u C-x =.</a>
+
+<a id="645" class="Comment">-- Common options</a>
+<a id="663" class="Symbol">{-#</a> <a id="667" class="Keyword">OPTIONS</a> <a id="675" class="Pragma">--double-check</a>   <a id="692" class="Symbol">#-}</a>
+<a id="696" class="Symbol">{-#</a> <a id="700" class="Keyword">OPTIONS</a> <a id="708" class="Pragma">--exact-split</a>    <a id="725" class="Symbol">#-}</a>
+<a id="729" class="Symbol">{-#</a> <a id="733" class="Keyword">OPTIONS</a> <a id="741" class="Pragma">--guardedness</a>    <a id="758" class="Symbol">#-}</a>
+<a id="762" class="Symbol">{-#</a> <a id="766" class="Keyword">OPTIONS</a> <a id="774" class="Pragma">--no-sized-types</a> <a id="791" class="Symbol">#-}</a>
+<a id="795" class="Symbol">{-#</a> <a id="799" class="Keyword">OPTIONS</a> <a id="807" class="Pragma">--warning=all</a>    <a id="824" class="Symbol">#-}</a>
+<a id="828" class="Symbol">{-#</a> <a id="832" class="Keyword">OPTIONS</a> <a id="840" class="Pragma">--warning=error</a>  <a id="857" class="Symbol">#-}</a>
+
+<a id="862" class="Comment">-- Other options</a>
+<a id="879" class="Symbol">{-#</a> <a id="883" class="Keyword">OPTIONS</a> <a id="891" class="Pragma">--no-universe-polymorphism</a> <a id="918" class="Symbol">#-}</a>
+<a id="922" class="Symbol">{-#</a> <a id="926" class="Keyword">OPTIONS</a> <a id="934" class="Pragma">--safe</a>                     <a id="961" class="Symbol">#-}</a>
+<a id="965" class="Symbol">{-#</a> <a id="969" class="Keyword">OPTIONS</a> <a id="977" class="Pragma">--without-K</a>                <a id="1004" class="Symbol">#-}</a>
+
+<a id="1009" class="Keyword">module</a> <a id="1016" href="Lecture.NonDependentTypes.html" class="Module">Lecture.NonDependentTypes</a> <a id="1042" class="Keyword">where</a>
+
+<a id="1049" class="Comment">------------------------------------------------------------------------------</a>
+
+<a id="1129" class="Keyword">infixr</a> <a id="1136" class="Number">6</a> <a id="1138" href="Lecture.NonDependentTypes.html#1990" class="InductiveConstructor Operator">_,_</a>
+<a id="1142" class="Keyword">infixr</a> <a id="1149" class="Number">5</a> <a id="1151" href="Lecture.NonDependentTypes.html#1960" class="Datatype Operator">_×_</a>
+<a id="1155" class="Keyword">infixr</a> <a id="1162" class="Number">4</a> <a id="1164" href="Lecture.NonDependentTypes.html#2349" class="Datatype Operator">_+_</a>
+
+<a id="1169" class="Comment">-- Datatypes are introduced by a `data` declaration, giving the name</a>
+<a id="1238" class="Comment">-- and type of the datatype as well as the data constructors and their</a>
+<a id="1309" class="Comment">-- types.</a>
+
+<a id="1320" class="Comment">-- What is in most programming languages called `Type` is in Agda for</a>
+<a id="1390" class="Comment">-- historic reasons called `Set`.</a>
+
+<a id="1425" class="Comment">-- The empty (bottom) type: It is the type that has no inhabitants.</a>
+<a id="1493" class="Keyword">data</a> <a id="⊥"></a><a id="1498" href="Lecture.NonDependentTypes.html#1498" class="Datatype">⊥</a> <a id="1500" class="Symbol">:</a> <a id="1502" href="Agda.Primitive.html#388" class="Primitive">Set</a> <a id="1506" class="Keyword">where</a>  <a id="1513" class="Comment">-- To type ⊥ we type \bot.</a>
+
+<a id="1541" class="Comment">-- The unit (top) type: It is the type that allows only one value.</a>
+<a id="1608" class="Keyword">data</a> <a id="⊤"></a><a id="1613" href="Lecture.NonDependentTypes.html#1613" class="Datatype">⊤</a> <a id="1615" class="Symbol">:</a> <a id="1617" href="Agda.Primitive.html#388" class="Primitive">Set</a> <a id="1621" class="Keyword">where</a>  <a id="1628" class="Comment">-- To type ⊤ we type \top.</a>
+  <a id="⊤.tt"></a><a id="1657" href="Lecture.NonDependentTypes.html#1657" class="InductiveConstructor">tt</a> <a id="1660" class="Symbol">:</a> <a id="1662" href="Lecture.NonDependentTypes.html#1613" class="Datatype">⊤</a>
+
+<a id="1665" class="Comment">-- (Parameterized) polymorphic type: It is a type that takes another</a>
+<a id="1734" class="Comment">-- type as its parameter.</a>
+
+<a id="1761" class="Comment">-- Product type: The product of two types is the type inhabited by</a>
+<a id="1828" class="Comment">-- pairs of terms whose first component is term of the first type and</a>
+<a id="1898" class="Comment">-- whose second component is an term of the second type.</a>
+<a id="1955" class="Keyword">data</a> <a id="_×_"></a><a id="1960" href="Lecture.NonDependentTypes.html#1960" class="Datatype Operator">_×_</a> <a id="1964" class="Symbol">(</a><a id="1965" href="Lecture.NonDependentTypes.html#1965" class="Bound">A</a> <a id="1967" href="Lecture.NonDependentTypes.html#1967" class="Bound">B</a> <a id="1969" class="Symbol">:</a> <a id="1971" href="Agda.Primitive.html#388" class="Primitive">Set</a><a id="1974" class="Symbol">)</a> <a id="1976" class="Symbol">:</a> <a id="1978" href="Agda.Primitive.html#388" class="Primitive">Set</a> <a id="1982" class="Keyword">where</a>
+  <a id="_×_._,_"></a><a id="1990" href="Lecture.NonDependentTypes.html#1990" class="InductiveConstructor Operator">_,_</a> <a id="1994" class="Symbol">:</a> <a id="1996" href="Lecture.NonDependentTypes.html#1965" class="Bound">A</a> <a id="1998" class="Symbol">→</a> <a id="2000" href="Lecture.NonDependentTypes.html#1967" class="Bound">B</a> <a id="2002" class="Symbol">→</a> <a id="2004" href="Lecture.NonDependentTypes.html#1965" class="Bound">A</a> <a id="2006" href="Lecture.NonDependentTypes.html#1960" class="Datatype Operator">×</a> <a id="2008" href="Lecture.NonDependentTypes.html#1967" class="Bound">B</a>
+
+<a id="2011" class="Comment">-- Tuple type: n-ary product type.</a>
+
+<a id="2047" class="Comment">-- Record type: A tuple type where each type has an label by which it</a>
+<a id="2117" class="Comment">-- can be accessed. See:</a>
+<a id="2142" class="Comment">-- https://agda.readthedocs.io/en/latest/language/record-types.html.</a>
+
+<a id="2212" class="Keyword">record</a> <a id="R"></a><a id="2219" href="Lecture.NonDependentTypes.html#2219" class="Record">R</a> <a id="2221" class="Symbol">(</a><a id="2222" href="Lecture.NonDependentTypes.html#2222" class="Bound">A</a> <a id="2224" href="Lecture.NonDependentTypes.html#2224" class="Bound">B</a> <a id="2226" href="Lecture.NonDependentTypes.html#2226" class="Bound">C</a> <a id="2228" class="Symbol">:</a> <a id="2230" href="Agda.Primitive.html#388" class="Primitive">Set</a><a id="2233" class="Symbol">)</a> <a id="2235" class="Symbol">:</a> <a id="2237" href="Agda.Primitive.html#388" class="Primitive">Set</a> <a id="2241" class="Keyword">where</a>
+  <a id="2249" class="Keyword">field</a>
+    <a id="R.f₁"></a><a id="2259" href="Lecture.NonDependentTypes.html#2259" class="Field">f₁</a> <a id="2262" class="Symbol">:</a> <a id="2264" href="Lecture.NonDependentTypes.html#2222" class="Bound">A</a>
+    <a id="R.f₂"></a><a id="2270" href="Lecture.NonDependentTypes.html#2270" class="Field">f₂</a> <a id="2273" class="Symbol">:</a> <a id="2275" href="Lecture.NonDependentTypes.html#2224" class="Bound">B</a>
+    <a id="R.f₃"></a><a id="2281" href="Lecture.NonDependentTypes.html#2281" class="Field">f₃</a> <a id="2284" class="Symbol">:</a> <a id="2286" href="Lecture.NonDependentTypes.html#2226" class="Bound">C</a>
+
+<a id="2289" class="Comment">-- Sum type (disjoint union): A tagged union of types.</a>
+<a id="2344" class="Keyword">data</a> <a id="_+_"></a><a id="2349" href="Lecture.NonDependentTypes.html#2349" class="Datatype Operator">_+_</a> <a id="2353" class="Symbol">(</a><a id="2354" href="Lecture.NonDependentTypes.html#2354" class="Bound">A</a> <a id="2356" href="Lecture.NonDependentTypes.html#2356" class="Bound">B</a> <a id="2358" class="Symbol">:</a> <a id="2360" href="Agda.Primitive.html#388" class="Primitive">Set</a><a id="2363" class="Symbol">)</a> <a id="2365" class="Symbol">:</a> <a id="2367" href="Agda.Primitive.html#388" class="Primitive">Set</a> <a id="2371" class="Keyword">where</a>
+  <a id="_+_.inj₁"></a><a id="2379" href="Lecture.NonDependentTypes.html#2379" class="InductiveConstructor">inj₁</a> <a id="2384" class="Symbol">:</a> <a id="2386" href="Lecture.NonDependentTypes.html#2354" class="Bound">A</a> <a id="2388" class="Symbol">→</a> <a id="2390" href="Lecture.NonDependentTypes.html#2354" class="Bound">A</a> <a id="2392" href="Lecture.NonDependentTypes.html#2349" class="Datatype Operator">+</a> <a id="2394" href="Lecture.NonDependentTypes.html#2356" class="Bound">B</a>
+  <a id="_+_.inj₂"></a><a id="2398" href="Lecture.NonDependentTypes.html#2398" class="InductiveConstructor">inj₂</a> <a id="2403" class="Symbol">:</a> <a id="2405" href="Lecture.NonDependentTypes.html#2356" class="Bound">B</a> <a id="2407" class="Symbol">→</a> <a id="2409" href="Lecture.NonDependentTypes.html#2354" class="Bound">A</a> <a id="2411" href="Lecture.NonDependentTypes.html#2349" class="Datatype Operator">+</a> <a id="2413" href="Lecture.NonDependentTypes.html#2356" class="Bound">B</a>
+
+<a id="2416" class="Comment">-- Enumerated type: Generalized binary sums where the only type used</a>
+<a id="2485" class="Comment">-- is the unit type.</a>
+
+<a id="2507" class="Keyword">data</a> <a id="WeekDay"></a><a id="2512" href="Lecture.NonDependentTypes.html#2512" class="Datatype">WeekDay</a> <a id="2520" class="Symbol">:</a> <a id="2522" href="Agda.Primitive.html#388" class="Primitive">Set</a> <a id="2526" class="Keyword">where</a>
+  <a id="WeekDay.monday"></a><a id="2534" href="Lecture.NonDependentTypes.html#2534" class="InductiveConstructor">monday</a>    <a id="2544" class="Symbol">:</a> <a id="2546" href="Lecture.NonDependentTypes.html#2512" class="Datatype">WeekDay</a>
+  <a id="WeekDay.tuesday"></a><a id="2556" href="Lecture.NonDependentTypes.html#2556" class="InductiveConstructor">tuesday</a>   <a id="2566" class="Symbol">:</a> <a id="2568" href="Lecture.NonDependentTypes.html#2512" class="Datatype">WeekDay</a>
+  <a id="WeekDay.wednesday"></a><a id="2578" href="Lecture.NonDependentTypes.html#2578" class="InductiveConstructor">wednesday</a> <a id="2588" class="Symbol">:</a> <a id="2590" href="Lecture.NonDependentTypes.html#2512" class="Datatype">WeekDay</a>
+  <a id="WeekDay.thursday"></a><a id="2600" href="Lecture.NonDependentTypes.html#2600" class="InductiveConstructor">thursday</a>  <a id="2610" class="Symbol">:</a> <a id="2612" href="Lecture.NonDependentTypes.html#2512" class="Datatype">WeekDay</a>
+  <a id="WeekDay.friday"></a><a id="2622" href="Lecture.NonDependentTypes.html#2622" class="InductiveConstructor">friday</a>    <a id="2632" class="Symbol">:</a> <a id="2634" href="Lecture.NonDependentTypes.html#2512" class="Datatype">WeekDay</a>
+
+<a id="2643" class="Comment">-- Function types: If `A B : Set` then `A → B` is the type of</a>
+<a id="2705" class="Comment">-- functions of `A` to `B`.</a>
+
+<a id="2734" class="Comment">-- Algebraic data types: Sum of product types.</a>
+
+<a id="2782" class="Keyword">data</a> <a id="Maybe"></a><a id="2787" href="Lecture.NonDependentTypes.html#2787" class="Datatype">Maybe</a> <a id="2793" class="Symbol">(</a><a id="2794" href="Lecture.NonDependentTypes.html#2794" class="Bound">A</a> <a id="2796" class="Symbol">:</a> <a id="2798" href="Agda.Primitive.html#388" class="Primitive">Set</a><a id="2801" class="Symbol">)</a> <a id="2803" class="Symbol">:</a> <a id="2805" href="Agda.Primitive.html#388" class="Primitive">Set</a> <a id="2809" class="Keyword">where</a>
+  <a id="Maybe.just"></a><a id="2817" href="Lecture.NonDependentTypes.html#2817" class="InductiveConstructor">just</a>    <a id="2825" class="Symbol">:</a> <a id="2827" href="Lecture.NonDependentTypes.html#2794" class="Bound">A</a> <a id="2829" class="Symbol">→</a> <a id="2831" href="Lecture.NonDependentTypes.html#2787" class="Datatype">Maybe</a> <a id="2837" href="Lecture.NonDependentTypes.html#2794" class="Bound">A</a>
+  <a id="Maybe.nothing"></a><a id="2841" href="Lecture.NonDependentTypes.html#2841" class="InductiveConstructor">nothing</a> <a id="2849" class="Symbol">:</a> <a id="2851" href="Lecture.NonDependentTypes.html#2787" class="Datatype">Maybe</a> <a id="2857" href="Lecture.NonDependentTypes.html#2794" class="Bound">A</a>
+
+<a id="2860" class="Keyword">data</a> <a id="Either"></a><a id="2865" href="Lecture.NonDependentTypes.html#2865" class="Datatype">Either</a> <a id="2872" class="Symbol">(</a><a id="2873" href="Lecture.NonDependentTypes.html#2873" class="Bound">A</a> <a id="2875" href="Lecture.NonDependentTypes.html#2875" class="Bound">B</a> <a id="2877" class="Symbol">:</a> <a id="2879" href="Agda.Primitive.html#388" class="Primitive">Set</a><a id="2882" class="Symbol">)</a> <a id="2884" class="Symbol">:</a> <a id="2886" href="Agda.Primitive.html#388" class="Primitive">Set</a> <a id="2890" class="Keyword">where</a>
+  <a id="Either.left"></a><a id="2898" href="Lecture.NonDependentTypes.html#2898" class="InductiveConstructor">left</a>  <a id="2904" class="Symbol">:</a> <a id="2906" href="Lecture.NonDependentTypes.html#2873" class="Bound">A</a> <a id="2908" class="Symbol">→</a> <a id="2910" href="Lecture.NonDependentTypes.html#2865" class="Datatype">Either</a> <a id="2917" href="Lecture.NonDependentTypes.html#2873" class="Bound">A</a> <a id="2919" href="Lecture.NonDependentTypes.html#2875" class="Bound">B</a>
+  <a id="Either.right"></a><a id="2923" href="Lecture.NonDependentTypes.html#2923" class="InductiveConstructor">right</a> <a id="2929" class="Symbol">:</a> <a id="2931" href="Lecture.NonDependentTypes.html#2875" class="Bound">B</a> <a id="2933" class="Symbol">→</a> <a id="2935" href="Lecture.NonDependentTypes.html#2865" class="Datatype">Either</a> <a id="2942" href="Lecture.NonDependentTypes.html#2873" class="Bound">A</a> <a id="2944" href="Lecture.NonDependentTypes.html#2875" class="Bound">B</a>
+
+<a id="2947" class="Comment">-- Recursive type: It is a type that is defined in terms of itself.</a>
+
+<a id="3016" class="Keyword">data</a> <a id="ℕ"></a><a id="3021" href="Lecture.NonDependentTypes.html#3021" class="Datatype">ℕ</a> <a id="3023" class="Symbol">:</a> <a id="3025" href="Agda.Primitive.html#388" class="Primitive">Set</a> <a id="3029" class="Keyword">where</a>
+  <a id="ℕ.zero"></a><a id="3037" href="Lecture.NonDependentTypes.html#3037" class="InductiveConstructor">zero</a> <a id="3042" class="Symbol">:</a> <a id="3044" href="Lecture.NonDependentTypes.html#3021" class="Datatype">ℕ</a>
+  <a id="ℕ.succ"></a><a id="3048" href="Lecture.NonDependentTypes.html#3048" class="InductiveConstructor">succ</a> <a id="3053" class="Symbol">:</a> <a id="3055" href="Lecture.NonDependentTypes.html#3021" class="Datatype">ℕ</a> <a id="3057" class="Symbol">→</a> <a id="3059" href="Lecture.NonDependentTypes.html#3021" class="Datatype">ℕ</a>
+
+<a id="3062" class="Keyword">infixr</a> <a id="3069" class="Number">5</a> <a id="3071" href="Lecture.NonDependentTypes.html#3125" class="InductiveConstructor Operator">_∷_</a>
+
+<a id="3076" class="Keyword">data</a> <a id="List"></a><a id="3081" href="Lecture.NonDependentTypes.html#3081" class="Datatype">List</a> <a id="3086" class="Symbol">(</a><a id="3087" href="Lecture.NonDependentTypes.html#3087" class="Bound">A</a> <a id="3089" class="Symbol">:</a> <a id="3091" href="Agda.Primitive.html#388" class="Primitive">Set</a><a id="3094" class="Symbol">)</a> <a id="3096" class="Symbol">:</a> <a id="3098" href="Agda.Primitive.html#388" class="Primitive">Set</a> <a id="3102" class="Keyword">where</a>
+  <a id="List.[]"></a><a id="3110" href="Lecture.NonDependentTypes.html#3110" class="InductiveConstructor">[]</a>  <a id="3114" class="Symbol">:</a> <a id="3116" href="Lecture.NonDependentTypes.html#3081" class="Datatype">List</a> <a id="3121" href="Lecture.NonDependentTypes.html#3087" class="Bound">A</a>
+  <a id="List._∷_"></a><a id="3125" href="Lecture.NonDependentTypes.html#3125" class="InductiveConstructor Operator">_∷_</a> <a id="3129" class="Symbol">:</a> <a id="3131" href="Lecture.NonDependentTypes.html#3087" class="Bound">A</a> <a id="3133" class="Symbol">→</a> <a id="3135" href="Lecture.NonDependentTypes.html#3081" class="Datatype">List</a> <a id="3140" href="Lecture.NonDependentTypes.html#3087" class="Bound">A</a> <a id="3142" class="Symbol">→</a> <a id="3144" href="Lecture.NonDependentTypes.html#3081" class="Datatype">List</a> <a id="3149" href="Lecture.NonDependentTypes.html#3087" class="Bound">A</a>
+
+<a id="3152" class="Keyword">data</a> <a id="Tree"></a><a id="3157" href="Lecture.NonDependentTypes.html#3157" class="Datatype">Tree</a> <a id="3162" class="Symbol">(</a><a id="3163" href="Lecture.NonDependentTypes.html#3163" class="Bound">A</a> <a id="3165" class="Symbol">:</a> <a id="3167" href="Agda.Primitive.html#388" class="Primitive">Set</a><a id="3170" class="Symbol">)</a> <a id="3172" class="Symbol">:</a> <a id="3174" href="Agda.Primitive.html#388" class="Primitive">Set</a> <a id="3178" class="Keyword">where</a>
+  <a id="Tree.empty"></a><a id="3186" href="Lecture.NonDependentTypes.html#3186" class="InductiveConstructor">empty</a> <a id="3192" class="Symbol">:</a> <a id="3194" href="Lecture.NonDependentTypes.html#3157" class="Datatype">Tree</a> <a id="3199" href="Lecture.NonDependentTypes.html#3163" class="Bound">A</a>
+  <a id="Tree.leaf"></a><a id="3203" href="Lecture.NonDependentTypes.html#3203" class="InductiveConstructor">leaf</a>  <a id="3209" class="Symbol">:</a> <a id="3211" href="Lecture.NonDependentTypes.html#3163" class="Bound">A</a> <a id="3213" class="Symbol">→</a> <a id="3215" href="Lecture.NonDependentTypes.html#3157" class="Datatype">Tree</a> <a id="3220" href="Lecture.NonDependentTypes.html#3163" class="Bound">A</a>
+  <a id="Tree.node"></a><a id="3224" href="Lecture.NonDependentTypes.html#3224" class="InductiveConstructor">node</a>  <a id="3230" class="Symbol">:</a> <a id="3232" href="Lecture.NonDependentTypes.html#3157" class="Datatype">Tree</a> <a id="3237" href="Lecture.NonDependentTypes.html#3163" class="Bound">A</a> <a id="3239" class="Symbol">→</a> <a id="3241" href="Lecture.NonDependentTypes.html#3157" class="Datatype">Tree</a> <a id="3246" href="Lecture.NonDependentTypes.html#3163" class="Bound">A</a> <a id="3248" class="Symbol">→</a> <a id="3250" href="Lecture.NonDependentTypes.html#3157" class="Datatype">Tree</a> <a id="3255" href="Lecture.NonDependentTypes.html#3163" class="Bound">A</a>
+</pre></body></html>

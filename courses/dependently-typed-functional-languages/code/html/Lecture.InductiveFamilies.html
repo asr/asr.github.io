@@ -1,0 +1,132 @@
+<!DOCTYPE HTML>
+<html><head><meta charset="utf-8"><title>Lecture.InductiveFamilies</title><link rel="stylesheet" href="Agda.css"></head><body><pre class="Agda"><a id="1" class="Comment">------------------------------------------------------------------------------</a>
+<a id="80" class="Comment">-- Dependently typed functional languages - 2011-01</a>
+
+<a id="133" class="Comment">-- Inductive families (datatype families, inductively defined family of sets)</a>
+<a id="211" class="Comment">------------------------------------------------------------------------------</a>
+
+<a id="291" class="Comment">-- References:</a>
+
+<a id="307" class="Comment">-- Bove, Ana and Dybjer, Peter (2009). Dependent Types at Work.</a>
+
+<a id="372" class="Comment">-- Norell, Ulf (2009). Dependently Typed Programming in Agda.</a>
+
+<a id="435" class="Comment">-- Common options</a>
+<a id="453" class="Symbol">{-#</a> <a id="457" class="Keyword">OPTIONS</a> <a id="465" class="Pragma">--double-check</a>   <a id="482" class="Symbol">#-}</a>
+<a id="486" class="Symbol">{-#</a> <a id="490" class="Keyword">OPTIONS</a> <a id="498" class="Pragma">--exact-split</a>    <a id="515" class="Symbol">#-}</a>
+<a id="519" class="Symbol">{-#</a> <a id="523" class="Keyword">OPTIONS</a> <a id="531" class="Pragma">--guardedness</a>    <a id="548" class="Symbol">#-}</a>
+<a id="552" class="Symbol">{-#</a> <a id="556" class="Keyword">OPTIONS</a> <a id="564" class="Pragma">--no-sized-types</a> <a id="581" class="Symbol">#-}</a>
+<a id="585" class="Symbol">{-#</a> <a id="589" class="Keyword">OPTIONS</a> <a id="597" class="Pragma">--warning=all</a>    <a id="614" class="Symbol">#-}</a>
+<a id="618" class="Symbol">{-#</a> <a id="622" class="Keyword">OPTIONS</a> <a id="630" class="Pragma">--warning=error</a>  <a id="647" class="Symbol">#-}</a>
+
+<a id="652" class="Comment">-- Other options</a>
+<a id="669" class="Comment">-- {-# OPTIONS --no-universe-polymorphism #-}</a>
+<a id="715" class="Symbol">{-#</a> <a id="719" class="Keyword">OPTIONS</a> <a id="727" class="Pragma">--safe</a>      <a id="739" class="Symbol">#-}</a>
+<a id="743" class="Symbol">{-#</a> <a id="747" class="Keyword">OPTIONS</a> <a id="755" class="Pragma">--without-K</a> <a id="767" class="Symbol">#-}</a>
+
+<a id="772" class="Keyword">module</a> <a id="779" href="Lecture.InductiveFamilies.html" class="Module">Lecture.InductiveFamilies</a> <a id="805" class="Keyword">where</a>
+
+<a id="812" class="Keyword">open</a> <a id="817" class="Keyword">import</a> <a id="824" href="Data.Nat.html" class="Module">Data.Nat</a> <a id="833" class="Keyword">renaming</a> <a id="842" class="Symbol">(</a><a id="843" href="Agda.Builtin.Nat.html#234" class="InductiveConstructor">suc</a> <a id="847" class="Symbol">to</a> <a id="850" class="InductiveConstructor">succ</a><a id="854" class="Symbol">)</a>
+
+<a id="857" class="Keyword">open</a> <a id="862" class="Keyword">import</a> <a id="869" href="Extra.Data.Unit.html" class="Module">Extra.Data.Unit</a>
+<a id="885" class="Keyword">open</a> <a id="890" class="Keyword">import</a> <a id="897" href="Extra.Data.Product.html" class="Module">Extra.Data.Product</a>
+
+<a id="917" class="Comment">------------------------------------------------------------------------------</a>
+
+<a id="997" class="Comment">-- Motivation: Problems in the definition of some Haskell functions</a>
+<a id="1065" class="Comment">-- (from Data.List (GHC 7.0.3))</a>
+
+<a id="1098" class="Comment">-- | Extract the first element of a list, which must be non-empty.</a>
+<a id="1165" class="Comment">-- head                    :: [a] -&gt; a</a>
+<a id="1204" class="Comment">-- head (x:_)              =  x</a>
+<a id="1236" class="Comment">-- head []                 =  badHead</a>
+
+<a id="1275" class="Comment">-- | Extract the elements after the head of a list, which must be non-empty.</a>
+<a id="1352" class="Comment">-- tail                    :: [a] -&gt; [a]</a>
+<a id="1393" class="Comment">-- tail (_:xs)             =  xs</a>
+<a id="1426" class="Comment">-- tail []                 =  errorEmptyList &quot;tail&quot;</a>
+
+<a id="1479" class="Comment">-- | &#39;zip&#39; takes two lists and returns a list of corresponding pairs.</a>
+<a id="1549" class="Comment">-- If one input list is short, excess elements of the longer list are</a>
+<a id="1619" class="Comment">-- discarded.</a>
+<a id="1633" class="Comment">-- zip :: [a] -&gt; [b] -&gt; [(a,b)]</a>
+<a id="1665" class="Comment">-- zip (a:as) (b:bs) = (a,b) : zip as bs</a>
+<a id="1706" class="Comment">-- zip _      _      = []</a>
+
+<a id="1733" class="Comment">------------------------------------------------------------------------------</a>
+<a id="1812" class="Comment">-- Vectors: Types of lists of a certain length</a>
+
+<a id="1860" class="Comment">-- Inductive family definition:</a>
+
+<a id="1893" class="Keyword">infixr</a> <a id="1900" class="Number">5</a> <a id="1902" href="Lecture.InductiveFamilies.html#1987" class="InductiveConstructor Operator">_∷_</a>
+
+<a id="1907" class="Keyword">data</a> <a id="Vec"></a><a id="1912" href="Lecture.InductiveFamilies.html#1912" class="Datatype">Vec</a> <a id="1916" class="Symbol">(</a><a id="1917" href="Lecture.InductiveFamilies.html#1917" class="Bound">A</a> <a id="1919" class="Symbol">:</a> <a id="1921" href="Agda.Primitive.html#388" class="Primitive">Set</a><a id="1924" class="Symbol">)</a> <a id="1926" class="Symbol">:</a> <a id="1928" href="Agda.Builtin.Nat.html#203" class="Datatype">ℕ</a> <a id="1930" class="Symbol">→</a> <a id="1932" href="Agda.Primitive.html#388" class="Primitive">Set</a> <a id="1936" class="Keyword">where</a>
+  <a id="Vec.[]"></a><a id="1944" href="Lecture.InductiveFamilies.html#1944" class="InductiveConstructor">[]</a>  <a id="1948" class="Symbol">:</a>                         <a id="1974" href="Lecture.InductiveFamilies.html#1912" class="Datatype">Vec</a> <a id="1978" href="Lecture.InductiveFamilies.html#1917" class="Bound">A</a> <a id="1980" href="Agda.Builtin.Nat.html#221" class="InductiveConstructor">zero</a>
+  <a id="Vec._∷_"></a><a id="1987" href="Lecture.InductiveFamilies.html#1987" class="InductiveConstructor Operator">_∷_</a> <a id="1991" class="Symbol">:</a> <a id="1993" class="Symbol">{</a><a id="1994" href="Lecture.InductiveFamilies.html#1994" class="Bound">n</a> <a id="1996" class="Symbol">:</a> <a id="1998" href="Agda.Builtin.Nat.html#203" class="Datatype">ℕ</a><a id="1999" class="Symbol">}</a> <a id="2001" class="Symbol">→</a> <a id="2003" href="Lecture.InductiveFamilies.html#1917" class="Bound">A</a> <a id="2005" class="Symbol">→</a> <a id="2007" href="Lecture.InductiveFamilies.html#1912" class="Datatype">Vec</a> <a id="2011" href="Lecture.InductiveFamilies.html#1917" class="Bound">A</a> <a id="2013" href="Lecture.InductiveFamilies.html#1994" class="Bound">n</a> <a id="2015" class="Symbol">→</a> <a id="2017" href="Lecture.InductiveFamilies.html#1912" class="Datatype">Vec</a> <a id="2021" href="Lecture.InductiveFamilies.html#1917" class="Bound">A</a> <a id="2023" class="Symbol">(</a><a id="2024" href="Lecture.InductiveFamilies.html#850" class="InductiveConstructor">succ</a> <a id="2029" href="Lecture.InductiveFamilies.html#1994" class="Bound">n</a><a id="2030" class="Symbol">)</a>
+
+<a id="2033" class="Comment">-- The type of vectors.</a>
+<a id="2057" class="Comment">-- Vec A : ℕ → Set, i.e. Vec A is an inductive family parametrized by</a>
+<a id="2127" class="Comment">-- A and indexed by the natural numbers.</a>
+
+<a id="2169" class="Comment">-- The data constructors:</a>
+<a id="2195" class="Comment">-- [] : It generates a vector of length 0.</a>
+
+<a id="2239" class="Comment">-- _∷_ : It generates a vector of length (n + 1) from a vector of</a>
+<a id="2305" class="Comment">--       length n and an element of A.</a>
+
+<a id="2345" class="Comment">-- Parameters: They remain the same throughout the definition.</a>
+
+<a id="2409" class="Comment">-- Indexes: They vary in types of the data constructors.</a>
+
+<a id="2467" class="Comment">-- Examples</a>
+
+<a id="2480" class="Comment">-- Using the inductive familiy of vectors we can express the type of</a>
+<a id="2549" class="Comment">-- non-empty lists.</a>
+
+<a id="head"></a><a id="2570" href="Lecture.InductiveFamilies.html#2570" class="Function">head</a> <a id="2575" class="Symbol">:</a> <a id="2577" class="Symbol">{</a><a id="2578" href="Lecture.InductiveFamilies.html#2578" class="Bound">A</a> <a id="2580" class="Symbol">:</a> <a id="2582" href="Agda.Primitive.html#388" class="Primitive">Set</a><a id="2585" class="Symbol">}{</a><a id="2587" href="Lecture.InductiveFamilies.html#2587" class="Bound">n</a> <a id="2589" class="Symbol">:</a> <a id="2591" href="Agda.Builtin.Nat.html#203" class="Datatype">ℕ</a><a id="2592" class="Symbol">}</a> <a id="2594" class="Symbol">→</a> <a id="2596" href="Lecture.InductiveFamilies.html#1912" class="Datatype">Vec</a> <a id="2600" href="Lecture.InductiveFamilies.html#2578" class="Bound">A</a> <a id="2602" class="Symbol">(</a><a id="2603" href="Lecture.InductiveFamilies.html#850" class="InductiveConstructor">succ</a> <a id="2608" href="Lecture.InductiveFamilies.html#2587" class="Bound">n</a><a id="2609" class="Symbol">)</a> <a id="2611" class="Symbol">→</a> <a id="2613" href="Lecture.InductiveFamilies.html#2578" class="Bound">A</a>
+<a id="2615" href="Lecture.InductiveFamilies.html#2570" class="Function">head</a> <a id="2620" class="Symbol">(</a><a id="2621" href="Lecture.InductiveFamilies.html#2621" class="Bound">x</a> <a id="2623" href="Lecture.InductiveFamilies.html#1987" class="InductiveConstructor Operator">∷</a> <a id="2625" href="Lecture.InductiveFamilies.html#2625" class="Bound">xs</a><a id="2627" class="Symbol">)</a> <a id="2629" class="Symbol">=</a> <a id="2631" href="Lecture.InductiveFamilies.html#2621" class="Bound">x</a>
+
+<a id="tail"></a><a id="2634" href="Lecture.InductiveFamilies.html#2634" class="Function">tail</a> <a id="2639" class="Symbol">:</a> <a id="2641" class="Symbol">{</a><a id="2642" href="Lecture.InductiveFamilies.html#2642" class="Bound">A</a> <a id="2644" class="Symbol">:</a> <a id="2646" href="Agda.Primitive.html#388" class="Primitive">Set</a><a id="2649" class="Symbol">}{</a><a id="2651" href="Lecture.InductiveFamilies.html#2651" class="Bound">n</a> <a id="2653" class="Symbol">:</a> <a id="2655" href="Agda.Builtin.Nat.html#203" class="Datatype">ℕ</a><a id="2656" class="Symbol">}</a> <a id="2658" class="Symbol">→</a> <a id="2660" href="Lecture.InductiveFamilies.html#1912" class="Datatype">Vec</a> <a id="2664" href="Lecture.InductiveFamilies.html#2642" class="Bound">A</a> <a id="2666" class="Symbol">(</a><a id="2667" href="Lecture.InductiveFamilies.html#850" class="InductiveConstructor">succ</a> <a id="2672" href="Lecture.InductiveFamilies.html#2651" class="Bound">n</a><a id="2673" class="Symbol">)</a> <a id="2675" class="Symbol">→</a> <a id="2677" href="Lecture.InductiveFamilies.html#1912" class="Datatype">Vec</a> <a id="2681" href="Lecture.InductiveFamilies.html#2642" class="Bound">A</a> <a id="2683" href="Lecture.InductiveFamilies.html#2651" class="Bound">n</a>
+<a id="2685" href="Lecture.InductiveFamilies.html#2634" class="Function">tail</a> <a id="2690" class="Symbol">(</a><a id="2691" href="Lecture.InductiveFamilies.html#2691" class="Bound">x</a> <a id="2693" href="Lecture.InductiveFamilies.html#1987" class="InductiveConstructor Operator">∷</a> <a id="2695" href="Lecture.InductiveFamilies.html#2695" class="Bound">xs</a><a id="2697" class="Symbol">)</a> <a id="2699" class="Symbol">=</a> <a id="2701" href="Lecture.InductiveFamilies.html#2695" class="Bound">xs</a>
+
+<a id="2705" class="Comment">-- Using the inductive familiy of vectors we can express that two list</a>
+<a id="2776" class="Comment">-- are the same length.</a>
+<a id="zip"></a><a id="2800" href="Lecture.InductiveFamilies.html#2800" class="Function">zip</a> <a id="2804" class="Symbol">:</a> <a id="2806" class="Symbol">{</a><a id="2807" href="Lecture.InductiveFamilies.html#2807" class="Bound">A</a> <a id="2809" href="Lecture.InductiveFamilies.html#2809" class="Bound">B</a> <a id="2811" class="Symbol">:</a> <a id="2813" href="Agda.Primitive.html#388" class="Primitive">Set</a><a id="2816" class="Symbol">}(</a><a id="2818" href="Lecture.InductiveFamilies.html#2818" class="Bound">n</a> <a id="2820" class="Symbol">:</a> <a id="2822" href="Agda.Builtin.Nat.html#203" class="Datatype">ℕ</a><a id="2823" class="Symbol">)</a> <a id="2825" class="Symbol">→</a> <a id="2827" href="Lecture.InductiveFamilies.html#1912" class="Datatype">Vec</a> <a id="2831" href="Lecture.InductiveFamilies.html#2807" class="Bound">A</a> <a id="2833" href="Lecture.InductiveFamilies.html#2818" class="Bound">n</a> <a id="2835" class="Symbol">→</a> <a id="2837" href="Lecture.InductiveFamilies.html#1912" class="Datatype">Vec</a> <a id="2841" href="Lecture.InductiveFamilies.html#2809" class="Bound">B</a> <a id="2843" href="Lecture.InductiveFamilies.html#2818" class="Bound">n</a> <a id="2845" class="Symbol">→</a> <a id="2847" href="Lecture.InductiveFamilies.html#1912" class="Datatype">Vec</a> <a id="2851" class="Symbol">(</a><a id="2852" href="Lecture.InductiveFamilies.html#2807" class="Bound">A</a> <a id="2854" href="Extra.Data.Product.html#821" class="Function Operator">×</a> <a id="2856" href="Lecture.InductiveFamilies.html#2809" class="Bound">B</a><a id="2857" class="Symbol">)</a> <a id="2859" href="Lecture.InductiveFamilies.html#2818" class="Bound">n</a>
+<a id="2861" href="Lecture.InductiveFamilies.html#2800" class="Function">zip</a> <a id="2865" class="DottedPattern Symbol">.</a><a id="2866" href="Agda.Builtin.Nat.html#221" class="DottedPattern InductiveConstructor">zero</a>      <a id="2876" href="Lecture.InductiveFamilies.html#1944" class="InductiveConstructor">[]</a>            <a id="2890" href="Lecture.InductiveFamilies.html#1944" class="InductiveConstructor">[]</a>       <a id="2899" class="Symbol">=</a> <a id="2901" href="Lecture.InductiveFamilies.html#1944" class="InductiveConstructor">[]</a>
+<a id="2904" href="Lecture.InductiveFamilies.html#2800" class="Function">zip</a> <a id="2908" class="DottedPattern Symbol">.(</a><a id="2910" href="Lecture.InductiveFamilies.html#850" class="DottedPattern InductiveConstructor">succ</a> <a id="2915" href="Lecture.InductiveFamilies.html#2924" class="DottedPattern Bound">n</a><a id="2916" class="DottedPattern Symbol">)</a> <a id="2918" class="Symbol">(</a><a id="2919" href="Lecture.InductiveFamilies.html#1987" class="InductiveConstructor Operator">_∷_</a> <a id="2923" class="Symbol">{</a><a id="2924" href="Lecture.InductiveFamilies.html#2924" class="Bound">n</a><a id="2925" class="Symbol">}</a> <a id="2927" href="Lecture.InductiveFamilies.html#2927" class="Bound">x</a> <a id="2929" href="Lecture.InductiveFamilies.html#2929" class="Bound">xs</a><a id="2931" class="Symbol">)</a> <a id="2933" class="Symbol">(</a><a id="2934" href="Lecture.InductiveFamilies.html#2934" class="Bound">y</a> <a id="2936" href="Lecture.InductiveFamilies.html#1987" class="InductiveConstructor Operator">∷</a> <a id="2938" href="Lecture.InductiveFamilies.html#2938" class="Bound">ys</a><a id="2940" class="Symbol">)</a> <a id="2942" class="Symbol">=</a> <a id="2944" class="Symbol">(</a><a id="2945" href="Lecture.InductiveFamilies.html#2927" class="Bound">x</a> <a id="2947" href="Extra.Data.Product.html#753" class="InductiveConstructor Operator">,</a> <a id="2949" href="Lecture.InductiveFamilies.html#2934" class="Bound">y</a><a id="2950" class="Symbol">)</a> <a id="2952" href="Lecture.InductiveFamilies.html#1987" class="InductiveConstructor Operator">∷</a> <a id="2954" href="Lecture.InductiveFamilies.html#2800" class="Function">zip</a> <a id="2958" href="Lecture.InductiveFamilies.html#2924" class="Bound">n</a> <a id="2960" href="Lecture.InductiveFamilies.html#2929" class="Bound">xs</a> <a id="2963" href="Lecture.InductiveFamilies.html#2938" class="Bound">ys</a>
+
+<a id="2967" class="Comment">------------------------------------------------------------------------------</a>
+<a id="3046" class="Comment">-- Alternative definition of vectors: Recursive definition by</a>
+<a id="3108" class="Comment">-- induction on the length</a>
+
+<a id="3136" class="Comment">-- Mathematical definition</a>
+<a id="3163" class="Comment">-- A⁰      = 1</a>
+<a id="3178" class="Comment">-- A^(n+1) = A x A^n</a>
+
+<a id="VecR"></a><a id="3200" href="Lecture.InductiveFamilies.html#3200" class="Function">VecR</a> <a id="3205" class="Symbol">:</a> <a id="3207" href="Agda.Primitive.html#388" class="Primitive">Set</a> <a id="3211" class="Symbol">→</a> <a id="3213" href="Agda.Builtin.Nat.html#203" class="Datatype">ℕ</a> <a id="3215" class="Symbol">→</a> <a id="3217" href="Agda.Primitive.html#388" class="Primitive">Set</a>
+<a id="3221" href="Lecture.InductiveFamilies.html#3200" class="Function">VecR</a> <a id="3226" href="Lecture.InductiveFamilies.html#3226" class="Bound">A</a> <a id="3228" href="Agda.Builtin.Nat.html#221" class="InductiveConstructor">zero</a>     <a id="3237" class="Symbol">=</a> <a id="3239" href="Extra.Data.Unit.html#632" class="Record">⊤</a>
+<a id="3241" href="Lecture.InductiveFamilies.html#3200" class="Function">VecR</a> <a id="3246" href="Lecture.InductiveFamilies.html#3246" class="Bound">A</a> <a id="3248" class="Symbol">(</a><a id="3249" href="Lecture.InductiveFamilies.html#850" class="InductiveConstructor">succ</a> <a id="3254" href="Lecture.InductiveFamilies.html#3254" class="Bound">n</a><a id="3255" class="Symbol">)</a> <a id="3257" class="Symbol">=</a> <a id="3259" href="Lecture.InductiveFamilies.html#3246" class="Bound">A</a> <a id="3261" href="Extra.Data.Product.html#821" class="Function Operator">×</a> <a id="3263" class="Symbol">(</a><a id="3264" href="Lecture.InductiveFamilies.html#3200" class="Function">VecR</a> <a id="3269" href="Lecture.InductiveFamilies.html#3246" class="Bound">A</a> <a id="3271" href="Lecture.InductiveFamilies.html#3254" class="Bound">n</a><a id="3272" class="Symbol">)</a>
+
+<a id="3275" class="Comment">-- Examples</a>
+
+<a id="3288" class="Comment">-- Using the recursive definition of vectors we can express the type</a>
+<a id="3357" class="Comment">-- of non-empty lists.</a>
+<a id="headR"></a><a id="3380" href="Lecture.InductiveFamilies.html#3380" class="Function">headR</a> <a id="3386" class="Symbol">:</a> <a id="3388" class="Symbol">{</a><a id="3389" href="Lecture.InductiveFamilies.html#3389" class="Bound">A</a> <a id="3391" class="Symbol">:</a> <a id="3393" href="Agda.Primitive.html#388" class="Primitive">Set</a><a id="3396" class="Symbol">}{</a><a id="3398" href="Lecture.InductiveFamilies.html#3398" class="Bound">n</a> <a id="3400" class="Symbol">:</a> <a id="3402" href="Agda.Builtin.Nat.html#203" class="Datatype">ℕ</a><a id="3403" class="Symbol">}</a> <a id="3405" class="Symbol">→</a> <a id="3407" href="Lecture.InductiveFamilies.html#3200" class="Function">VecR</a> <a id="3412" href="Lecture.InductiveFamilies.html#3389" class="Bound">A</a> <a id="3414" class="Symbol">(</a><a id="3415" href="Lecture.InductiveFamilies.html#850" class="InductiveConstructor">succ</a> <a id="3420" href="Lecture.InductiveFamilies.html#3398" class="Bound">n</a><a id="3421" class="Symbol">)</a> <a id="3423" class="Symbol">→</a> <a id="3425" href="Lecture.InductiveFamilies.html#3389" class="Bound">A</a>
+<a id="3427" href="Lecture.InductiveFamilies.html#3380" class="Function">headR</a> <a id="3433" class="Symbol">(</a><a id="3434" href="Lecture.InductiveFamilies.html#3434" class="Bound">x</a> <a id="3436" href="Extra.Data.Product.html#753" class="InductiveConstructor Operator">,</a> <a id="3438" href="Lecture.InductiveFamilies.html#3438" class="Bound">xs</a><a id="3440" class="Symbol">)</a> <a id="3442" class="Symbol">=</a> <a id="3444" href="Lecture.InductiveFamilies.html#3434" class="Bound">x</a>
+
+<a id="3447" class="Comment">-- Using the recursive definition of vectors we can express that two</a>
+<a id="3516" class="Comment">-- list are the same length.</a>
+<a id="zipR"></a><a id="3545" href="Lecture.InductiveFamilies.html#3545" class="Function">zipR</a> <a id="3550" class="Symbol">:</a> <a id="3552" class="Symbol">{</a><a id="3553" href="Lecture.InductiveFamilies.html#3553" class="Bound">A</a> <a id="3555" href="Lecture.InductiveFamilies.html#3555" class="Bound">B</a> <a id="3557" class="Symbol">:</a> <a id="3559" href="Agda.Primitive.html#388" class="Primitive">Set</a><a id="3562" class="Symbol">}(</a><a id="3564" href="Lecture.InductiveFamilies.html#3564" class="Bound">n</a> <a id="3566" class="Symbol">:</a> <a id="3568" href="Agda.Builtin.Nat.html#203" class="Datatype">ℕ</a><a id="3569" class="Symbol">)</a> <a id="3571" class="Symbol">→</a> <a id="3573" href="Lecture.InductiveFamilies.html#3200" class="Function">VecR</a> <a id="3578" href="Lecture.InductiveFamilies.html#3553" class="Bound">A</a> <a id="3580" href="Lecture.InductiveFamilies.html#3564" class="Bound">n</a> <a id="3582" class="Symbol">→</a> <a id="3584" href="Lecture.InductiveFamilies.html#3200" class="Function">VecR</a> <a id="3589" href="Lecture.InductiveFamilies.html#3555" class="Bound">B</a> <a id="3591" href="Lecture.InductiveFamilies.html#3564" class="Bound">n</a> <a id="3593" class="Symbol">→</a> <a id="3595" href="Lecture.InductiveFamilies.html#3200" class="Function">VecR</a> <a id="3600" class="Symbol">(</a><a id="3601" href="Lecture.InductiveFamilies.html#3553" class="Bound">A</a> <a id="3603" href="Extra.Data.Product.html#821" class="Function Operator">×</a> <a id="3605" href="Lecture.InductiveFamilies.html#3555" class="Bound">B</a><a id="3606" class="Symbol">)</a> <a id="3608" href="Lecture.InductiveFamilies.html#3564" class="Bound">n</a>
+<a id="3610" href="Lecture.InductiveFamilies.html#3545" class="Function">zipR</a> <a id="3615" href="Agda.Builtin.Nat.html#221" class="InductiveConstructor">zero</a>     <a id="3624" href="Lecture.InductiveFamilies.html#3624" class="Bound">xs</a>       <a id="3633" href="Lecture.InductiveFamilies.html#3633" class="Bound">ys</a>       <a id="3642" class="Symbol">=</a> <a id="3644" class="Symbol">_</a>
+<a id="3646" href="Lecture.InductiveFamilies.html#3545" class="Function">zipR</a> <a id="3651" class="Symbol">(</a><a id="3652" href="Lecture.InductiveFamilies.html#850" class="InductiveConstructor">succ</a> <a id="3657" href="Lecture.InductiveFamilies.html#3657" class="Bound">n</a><a id="3658" class="Symbol">)</a> <a id="3660" class="Symbol">(</a><a id="3661" href="Lecture.InductiveFamilies.html#3661" class="Bound">x</a> <a id="3663" href="Extra.Data.Product.html#753" class="InductiveConstructor Operator">,</a> <a id="3665" href="Lecture.InductiveFamilies.html#3665" class="Bound">xs</a><a id="3667" class="Symbol">)</a> <a id="3669" class="Symbol">(</a><a id="3670" href="Lecture.InductiveFamilies.html#3670" class="Bound">y</a> <a id="3672" href="Extra.Data.Product.html#753" class="InductiveConstructor Operator">,</a> <a id="3674" href="Lecture.InductiveFamilies.html#3674" class="Bound">ys</a><a id="3676" class="Symbol">)</a> <a id="3678" class="Symbol">=</a> <a id="3680" class="Symbol">(</a><a id="3681" href="Lecture.InductiveFamilies.html#3661" class="Bound">x</a> <a id="3683" href="Extra.Data.Product.html#753" class="InductiveConstructor Operator">,</a> <a id="3685" href="Lecture.InductiveFamilies.html#3670" class="Bound">y</a><a id="3686" class="Symbol">)</a> <a id="3688" href="Extra.Data.Product.html#753" class="InductiveConstructor Operator">,</a> <a id="3690" class="Symbol">(</a><a id="3691" href="Lecture.InductiveFamilies.html#3545" class="Function">zipR</a> <a id="3696" href="Lecture.InductiveFamilies.html#3657" class="Bound">n</a> <a id="3698" href="Lecture.InductiveFamilies.html#3665" class="Bound">xs</a> <a id="3701" href="Lecture.InductiveFamilies.html#3674" class="Bound">ys</a><a id="3703" class="Symbol">)</a>
+
+<a id="3706" class="Comment">------------------------------------------------------------------------------</a>
+<a id="3785" class="Comment">-- Inductive families or recursive definitions?</a>
+
+<a id="3834" class="Comment">-- &#39;In the remainder of the notes we will, however, mostly use</a>
+<a id="3897" class="Comment">-- inductive families. This should not be taken as a statement that</a>
+<a id="3965" class="Comment">-- inductive families are always more convenient than recursive</a>
+<a id="4029" class="Comment">-- ones. When both methods are applicable, one needs to carefully</a>
+<a id="4095" class="Comment">-- consider how they will be used before choosing the one or the</a>
+<a id="4160" class="Comment">-- other&#39;. [Bove and Dybjer 2009, p. 70]</a>
+</pre></body></html>
