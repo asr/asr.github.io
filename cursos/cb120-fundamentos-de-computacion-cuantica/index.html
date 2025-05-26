@@ -1,327 +1,358 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="spanish" xml:lang="spanish">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Curso electivo: CB120 Fundamentos de Computación Cuántica</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: min(4vw, 1.5em);}
-    div.column{flex: auto; overflow-x: auto;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    /* The extra [class] is a hack that increases specificity enough to
-       override a similar rule in reveal.js */
-    ul.task-list[class]{list-style: none;}
-    ul.task-list li input[type="checkbox"] {
-      font-size: inherit;
-      width: 0.8em;
-      margin: 0 0.8em 0.2em -1.6em;
-      vertical-align: middle;
-    }
-    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
-    /* CSS for citations */
-    div.csl-bib-body { }
-    div.csl-entry {
-      clear: both;
-      margin-bottom: 0em;
-    }
-    .hanging-indent div.csl-entry {
-      margin-left:2em;
-      text-indent:-2em;
-    }
-    div.csl-left-margin {
-      min-width:2em;
-      float:left;
-    }
-    div.csl-right-inline {
-      margin-left:2em;
-      padding-left:1em;
-    }
-    div.csl-indent {
-      margin-left: 2em;
-    }  </style>
-  <link rel="stylesheet" href="empty.css" />
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Curso electivo: CB120 Fundamentos de Computación
-Cuántica</h1>
-</header>
 <!-- -*- ispell-local-dictionary: "spanish"; -*- -->
-<p><strong>Reunión informativa:</strong> Miercóles 27 de Noviembre, a
-las 2:00 p.m., en el aula 14-406.<br />
-<strong>Semestre:</strong> 2003-01<br />
-<strong>Nombre materia:</strong> Fundamentos de computación
-cuántica<br />
-<strong>Código:</strong> CB120<br />
-<strong>Horario:</strong> Se concertará con los estudiantes
-matriculados<br />
-<strong>Observación:</strong> En el contenido del curso para el semestre
-2003-01, se ha hecho especial enfásis en el tema relacionado con los
-simuladores de computación cuántica, tal como se puede observar en el
-contenido del curso.</p>
-<p>Cualquier inquietud o sugerencia puede ser enviada a:</p>
-<p>Andrés Sicard Ramírez. Email: asr (at) eafit (dot) edu (dot) co.
-Oficina: Bloque 3-206.</p>
-<p>Mario Elkin Vélez Ruiz. Email: mvelez (at) eafit (dot) edu (dot) co.
-Oficina: Bloque 3-210.</p>
-<p><strong>Material</strong></p>
-<ol type="1">
-<li><p>Texto Guía: <span class="citation"
-data-cites="chuang-nielsen-2000">Chuang and Nielsen
-(2000)</span>.</p></li>
-<li><p>Textos introductorios: <span class="citation"
-data-cites="chuang-nielsen-2000">Chuang and Nielsen (2000)</span>, <span
-class="citation" data-cites="gruska-1999">Gruska (1999)</span> y <span
-class="citation" data-cites="williams-clearwater-1997">Williams and
-Clearwater (1997)</span>.</p></li>
-<li><p>Artículos introductorios: <span class="citation"
-data-cites="rieffel-polak-2000">Rieffel and Polak (2000)</span>, <span
-class="citation" data-cites="shor-2000">Shor (2000)</span>, <span
-class="citation" data-cites="sicard-velez-1999">Sicard and Vélez
-(1999)</span> y <span class="citation"
-data-cites="velez-ruiz--sicard-ramirez-1999">Vélez Ruiz and Sicard
-Ramírez (1999)</span>.</p></li>
-</ol>
-<h1 id="introducción">Introducción</h1>
-<p>Los esquemas mentales que exige la nueva física para su comprensión,
-no son comparables a los de la física clásica, donde cada situación es
-representable por una imagen mental claramente intuible en el terreno de
-lo causal-determinista. Dadas las condiciones iniciales de un sistema,
-es posible saber con toda precisión la evolución del mismo, debido a que
-su comportamiento es expresable como un sistema de ecuaciónes
-diferenciales lineales y hasta cierto punto, es posible conocer sus
-múltiples relaciones con otros objetos. Contrariamente a esa imagen del
-mundo, la física moderna, en particular la mecánica cuántica, no permite
-esa estructuración; la intuición causal-determinista es remplazada por
-la intuición probabilista. Los eventos no se desenvuelven en el terreno
-del determinismo clásico sino más bién, en una suerte de evoluciones
-probabilistas.</p>
-<p>Las máquinas de Turing cuánticas y los circuitos cuánticos son un
-modelo de la computación, tal como lo son las máquinas de Turing, las
-funciones recursivas y el <span
-class="math inline"><em>λ</em></span>-cálculo, entre otros. Estos
-modelos se inscriben dentro de un área conocida como computación
-cuántica, y como su nombre lo indica, hacen uso de las propiedades y
-efectos considerados por la mecánica cuántica. Esta área fue
-inicialmente sugerida por Richard Feymman en los años 80, formalizada
-por David Deutsch, en la forma de máquinas de Turing cuánticas en 1985 y
-en la forma de circuitos cuánticos en 1989 y demostrada su potencialidad
-por Peter Shor en 1994.</p>
-<p>El trabajo de Shor señalo el aspecto fundamental en el cual se
-diferencian la computación clásica y la computación cuántica: <em>la
-complejidad algorítmica</em>. Esta diferencia consiste en que es posible
-definir algoritmos cuánticos cuya complejidad temporal sea menor que sus
-análogos clásicos (conocidos hasta el momento). En particular Shor
-realizó la descripción de un algoritmo cuántico de complejidad temporal
-polinómica para la factorización de números enteros.</p>
-<h1
-id="prerrequisitos-intensidad-semanal-y-número-de-créditos">Prerrequisitos,
-intensidad semanal y número de créditos</h1>
-<p>Se espera que los estudiantes hayan visto los cursos de Álgebra
-Lineal y Matemáticas Especiales III.</p>
-<p>El curso se ofrecerá bajo la modalidad de curso magistral, es decir,
-el curso tendra una intensidad semanal de 4 horas durante 15 semanas. En
-caso de ser necesario (de acuerdo al número de estudiantes matriculados)
-el curso se redefinirá como un curso dirigido, es decir, el curso tendra
-una intensidad de 2 horas semanales durante 15 semanas.</p>
-<p>El curso será considerado como un curso de 4 créditos de libre
-configuración para los estudiantes que se matriculen formalmente en
-él.</p>
-<h1 id="programa-propuesto">Programa propuesto</h1>
-<p><strong>Objetivo general</strong></p>
-<p>Comprender los modelos de computación cuántica con base en sus
-fundamentos matemáticos, físicos e informáticos.</p>
-<p><strong>Objetivos específicos</strong></p>
-<ol type="1">
-<li><p>Observar la computaciónn cuántica desde los postulados de la
-mecánica cuántica.</p></li>
-<li><p>Desarrollar habilidades para la manipulación formal de los
-elementos involucrados en la computación cuántica.</p></li>
-<li><p>Establecer relaciones entre la computación cuántica y las
-interpretaciones de la tesis de Church-Turing.</p></li>
-<li><p>Manipular los algoritmos de Shor y de Grover y sus
-implementaciones en diferentes simuladores de computación.</p></li>
-<li><p>Adquirir elementos conceptuales en diferentes tópicos
-relacionados con la computación cuántica tales como: implementación de
-máquinas cuánticas, criptografía cuántica, teleportación, correción de
-errores, computación cuántica autorrefencial, computación cuántica
-continua, etc.</p></li>
-</ol>
-<p><strong>Contenidos</strong></p>
-<ol type="1">
-<li><p>Introducción a la computación cuántica <span class="citation"
-data-cites="rieffel-polak-2000 williams-clearwater-1997 shor-2000">(Rieffel
-and Polak 2000; Williams and Clearwater 1997; Shor 2000)</span>.
-Duración 4 horas.</p></li>
-<li><p>Cuántica y computación: una aproximación desde los postulados de
-la mecánica cuántica <span class="citation"
-data-cites="cohen-tannoudji-1977 dirac-1967 velez-ruiz--sicard-ramirez-1999 sicard-ramirez--puerta-yepes--velez-ruiz-1998">(Cohen-Tannoudji,
-Diu, and Laloë 1997; Dirac 1967; Vélez Ruiz and Sicard Ramírez 1999;
-Sicard Ramírez, Puerta Yepes, and Vélez Ruiz 1998)</span>. Duración 6
-horas.</p></li>
-<li><p>Circuitos cuánticos. Duración 14 horas.</p>
-<p>3.1. Qubit, qubits, operadores de evolución, medidad cuánticas,
-compuertas cuánticas, construcción de circuitos cuánticos.</p>
-<p>3.2. Reversivilidad y estados enredados (<em>entanglement</em>).</p>
-<p>3.3 Paralelismo cuántico: problema de Deutsch <span class="citation"
-data-cites="sicard-velez-perez-2002">(Sicard, Vélez, and Pérez
-2002)</span>.</p>
-<p>3.4. Transformada cuántica de Fourier.</p></li>
-<li><p>Programación cuántica. Duración 12 horas.</p>
-<p>4.1. <a href="http://tph.tuwien.ac.at/~oemer/qcl.html">QCL - A
-Programming Language for Quantum Computers</a></p>
-<p>4.2. <a
-href="http://www.eng.buffalo.edu/~phygons/jaQuzzi/jaQuzzi.html">jaQuzzi
-- Interactive Quantum Computation</a></p>
-<p>4.3. <a href="http://www.compphys.org/QCE/">QCE - Quantum Computer
-Emulator</a></p>
-<p>4.4. <a
-href="https://library.wolfram.com/infocenter/MathSource/657/">QuCalc: A
-Quantum Computation Package for Mathematica 4.0</a></p>
-<p>4.5. <a href="http://en.wikipedia.org/wiki/Quantum_programming">Otros
-lenguajes</a></p></li>
-<li><p>Algoritmos cuánticos. Duración 12 horas.</p>
-<p>5.1. Algoritmo de Shor: factorización de un número entero en sus
-factores primos <span class="citation"
-data-cites="shor-1997 volovich-2001">(Shor 1997; Volovich
-2000)</span>.</p>
-<p>5.2. Algoritmo de Grover: busqueda en una base de datos desorganizada
-<span class="citation" data-cites="grover-1996 grover-2001">(Grover
-1996; Grover 2001)</span>.</p></li>
-<li><p>Tópicos relacionados con la computación cuántica. Duración 10
-horas.</p>
-<p>6.1. Implementación de máquinas cuánticas <span class="citation"
-data-cites="divincenzo-2000 velez-ruiz--sicard-ramirez-2000c">(DiVincenzo
-2000; Vélez Ruiz and Sicard Ramírez 2000)</span>.</p>
-<p>6.2. Criptografía cuántica.</p>
-<p>6.3. Correción de errores.</p>
-<p>6.4. Computación cuántica autorrefencial <span class="citation"
-data-cites="sicard-ramirez--velez-ruiz-1999 sicard-2001a">(Sicard
-Ramírez and Vélez Ruiz 1999; Sicard 2001)</span>.</p>
-<p>6.5. Computación cuántica continua <span class="citation"
-data-cites="sicard-ramirez--velez-ruiz-2000 velez-sicard-2000">(Sicard
-Ramírez and Vélez Ruiz 2000; Vélez and Sicard 2000)</span>.</p>
-<p>6.6. Computación cuántica geométrica <span class="citation"
-data-cites="velez-ruiz--sicard-ramirez-2001-2002 velez-ruiz--sicard-ramirez-2002-2003">(Vélez
-Ruiz and Sicard Ramírez 2001–2002; Vélez Ruiz and Sicard Ramírez
-2002–2003)</span>.</p></li>
-</ol>
-<h2 id="profesores">Profesores</h2>
-<p><a href="https://asr.github.io">Andrés Sicard Ramírez</a> y Mario
-Elkin Vélez Ruiz, miembros del grupo de Lógica y Computación y
-profesores del Departamento de Ciencias Básicas de la Universidad <a
-href="http://www.eafit.edu.co">EAFIT</a>.</p>
-<h2 class="unnumbered" id="referencias">Referencias</h2>
-<div id="refs" class="references csl-bib-body hanging-indent"
-data-entry-spacing="0" role="list">
-<div id="ref-chuang-nielsen-2000" class="csl-entry" role="listitem">
-Chuang, Isaac L., and Michael A. Nielsen. 2000. <em>Quantum computation
-and quantum information</em>. Cambridge University Press.
-</div>
-<div id="ref-cohen-tannoudji-1977" class="csl-entry" role="listitem">
-Cohen-Tannoudji, Claude, Bernard Diu, and Franck Laloë. 1997.
-<em>Quantum mechanics</em>. Vol. 1. Hermann; John Wiley; Sons.
-</div>
-<div id="ref-dirac-1967" class="csl-entry" role="listitem">
-Dirac, P. A. M. 1967. <em>Principios de mecánica cuántica</em>.
-Ediciones Arial.
-</div>
-<div id="ref-divincenzo-2000" class="csl-entry" role="listitem">
-DiVincenzo, David P. 2000. The physical implementation of quantum
-computation. <em>Fortschr. Phys.</em> 48, no. 9–11: 771–83.
-</div>
-<div id="ref-grover-1996" class="csl-entry" role="listitem">
-Grover, Lov K. 1996. A fast quantum mechanical algorithm for database
-search. <em>Proceedings of the twenty-eighth annual ACM symposium on
-theory of computing (STOC ’96)</em>.
-</div>
-<div id="ref-grover-2001" class="csl-entry" role="listitem">
----. 2001. From schrödinger’s equation to the quantum search algorithm.
-</div>
-<div id="ref-gruska-1999" class="csl-entry" role="listitem">
-Gruska, Jozef. 1999. <em>Quantum computing</em>. McGraw-Hill
-International (UK) Limited.
-</div>
-<div id="ref-rieffel-polak-2000" class="csl-entry" role="listitem">
-Rieffel, Eleanor, and Wolfgang Polak. 2000. An introduction to quantum
-computing for non-physicists. <em>ACM Computing Surveys</em> 32, no. 3:
-300–335. doi:<a
-href="https://doi.org/10.1145/367701.367709">10.1145/367701.367709</a>.
-</div>
-<div id="ref-shor-1997" class="csl-entry" role="listitem">
-Shor, Peter W. 1997. Polinomial-time algorithms for prime factorization
-and discrete logarithms on a quantum computer. <em>SIAM Journal on
-Computing</em> 26, no. 5: 1484–1509. doi:<a
-href="https://doi.org/10.1137/S0097539795293172">10.1137/S0097539795293172</a>.
-</div>
-<div id="ref-shor-2000" class="csl-entry" role="listitem">
----. 2000. Introduction to quantum algorithms.
-</div>
-<div id="ref-sicard-2001a" class="csl-entry" role="listitem">
-Sicard, Andrés. 2001. Autorreferencia en el contexto de las máquinas de
-<span>Turing</span> cuánticas. Talk.
-</div>
-<div id="ref-sicard-velez-1999" class="csl-entry" role="listitem">
-Sicard, Andrés, and Mario Vélez. 1999. Algunos elementos introductorios
-acerca de la computación cuántica. Talk.
-</div>
-<div id="ref-sicard-velez-perez-2002" class="csl-entry" role="listitem">
-Sicard, Andrés, Mario Vélez, and Carlos Pérez. 2002. Paralelismo
-cúantico: <span>El</span> problema de <span>D</span>eutsch.
-<em>Silicio</em> 1, no. 14: 42–47.
-</div>
-<div id="ref-sicard-ramirez--puerta-yepes--velez-ruiz-1998"
-class="csl-entry" role="listitem">
-Sicard Ramírez, Andrés, María Eugenia Puerta Yepes, and Mario Elkin
-Vélez Ruiz. 1998. Lenguaje subyacente a la noción de máquina cuántica.
-</div>
-<div id="ref-sicard-ramirez--velez-ruiz-1999" class="csl-entry"
-role="listitem">
-Sicard Ramírez, Andrés, and Mario Elkin Vélez Ruiz. 1999.
-¿<span>Máquina</span> de <span>Turing</span> cuántica autorrefencial:
-Una posibilidad?
-</div>
-<div id="ref-sicard-ramirez--velez-ruiz-2000" class="csl-entry"
-role="listitem">
----. 2000. Prototipo de un modelo de computación cuántica continua.
-</div>
-<div id="ref-velez-sicard-2000" class="csl-entry" role="listitem">
-Vélez, Mario, and Andrés Sicard. 2000. Computación cuántica: Una
-perspectiva desde lo continuo. <em>Revista Universidad EAFIT</em> 36,
-no. 118: 41–46.
-</div>
-<div id="ref-velez-ruiz--sicard-ramirez-2001-2002" class="csl-entry"
-role="listitem">
-Vélez Ruiz, Mario Elkin, and Andrés Sicard Ramírez. 2001–2002.
-Computación cuántica geométrica.
-</div>
-<div id="ref-velez-ruiz--sicard-ramirez-2002-2003" class="csl-entry"
-role="listitem">
----. 2002–2003. Computación cuántica geométrica no abeliana.
-</div>
-<div id="ref-velez-ruiz--sicard-ramirez-1999" class="csl-entry"
-role="listitem">
-Vélez Ruiz, Mario E., and Andrés Sicard Ramírez. 1999. Cuántica y
-computación: Una aproximación desde los postulados de la mecánica
-cuántica.
-</div>
-<div id="ref-velez-ruiz--sicard-ramirez-2000c" class="csl-entry"
-role="listitem">
----. 2000. Sobre algunos modelos de implementación para la computación
-cuántica.
-</div>
-<div id="ref-volovich-2001" class="csl-entry" role="listitem">
-Volovich, I. V. 2000. Quantum computing and <span>S</span>hor’s
-factoring algorithm.
-</div>
-<div id="ref-williams-clearwater-1997" class="csl-entry"
-role="listitem">
-Williams, Colin P., and Scott H. Clearwater. 1997. <em>Explorations in
-quantum computing</em>. Springer-Telos.
-</div>
-</div>
-</body>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://asr.github.io/courses.css"/>
+    <title>Curso electivo: CB120 Fundamentos de Computación Cuántica</title>
+  </head>
+
+  <body>
+    <h1 style="text-align:center;">Curso electivo: CB120 Fundamentos de Computación Cuántica</h1>
+    <h2 style="text-align:center;">Semestre 2003-1</h2>
+
+    <p style="text-align:center;">¡Esta página será actualizada
+    continuamente durante el semestre!</p>
+
+    <hr/>
+
+    <p><strong>Reunión informativa:</strong> Miercóles 27 de
+    Noviembre, a las 2:00 p.m., en el aula 14-406.<br />
+    <strong>Semestre:</strong> 2003-01<br /> <strong>Nombre
+    materia:</strong> Fundamentos de computación cuántica<br />
+    <strong>Código:</strong> CB120<br /> <strong>Horario:</strong> Se
+    concertará con los estudiantes matriculados<br />
+    <strong>Observación:</strong> En el contenido del curso para el
+    semestre 2003-01, se ha hecho especial enfásis en el tema
+    relacionado con los simuladores de computación cuántica, tal como
+    se puede observar en el contenido del curso.</p>
+
+    <p>Cualquier inquietud o sugerencia puede ser enviada a:</p>
+
+    <p>Andrés Sicard Ramírez. Email: asr (at) eafit (dot) edu (dot)
+    co.  Oficina: Bloque 3-206.</p>
+
+    <p>Mario Elkin Vélez Ruiz. Email: mvelez (at) eafit (dot) edu
+    (dot) co.  Oficina: Bloque 3-210.</p>
+
+    <p><strong>Material</strong></p>
+    <ol>
+      <li><p>Texto Guía: Chuang and Nielsen (2000).</p></li>
+
+      <li><p>Textos introductorios: Chuang and Nielsen (2000), Gruska
+      (1999) y Williams and Clearwater (1997).</p></li>
+
+      <li><p>Artículos introductorios: Rieffel and Polak (2000), Shor
+      (2000), Sicard and Vélez (1999) y Vélez Ruiz and Sicard Ramírez
+      (1999).</p></li>
+    </ol>
+
+    <h1>Introducción</h1>
+    <p>Los esquemas mentales que exige la nueva física para su
+    comprensión, no son comparables a los de la física clásica, donde
+    cada situación es representable por una imagen mental claramente
+    intuible en el terreno de lo causal-determinista. Dadas las
+    condiciones iniciales de un sistema, es posible saber con toda
+    precisión la evolución del mismo, debido a que su comportamiento
+    es expresable como un sistema de ecuaciónes diferenciales lineales
+    y hasta cierto punto, es posible conocer sus múltiples relaciones
+    con otros objetos. Contrariamente a esa imagen del mundo, la
+    física moderna, en particular la mecánica cuántica, no permite esa
+    estructuración; la intuición causal-determinista es remplazada por
+    la intuición probabilista. Los eventos no se desenvuelven en el
+    terreno del determinismo clásico sino más bién, en una suerte de
+    evoluciones probabilistas.</p>
+
+    <p>Las máquinas de Turing cuánticas y los circuitos cuánticos son
+    un modelo de la computación, tal como lo son las máquinas de
+    Turing, las funciones recursivas y el <span class="math
+    inline"><em>λ</em></span>-cálculo, entre otros. Estos modelos se
+    inscriben dentro de un área conocida como computación cuántica, y
+    como su nombre lo indica, hacen uso de las propiedades y efectos
+    considerados por la mecánica cuántica. Esta área fue inicialmente
+    sugerida por Richard Feymman en los años 80, formalizada por David
+    Deutsch, en la forma de máquinas de Turing cuánticas en 1985 y en
+    la forma de circuitos cuánticos en 1989 y demostrada su
+    potencialidad por Peter Shor en 1994.</p>
+
+    <p>El trabajo de Shor señalo el aspecto fundamental en el cual se
+    diferencian la computación clásica y la computación cuántica:
+    <em>la complejidad algorítmica</em>. Esta diferencia consiste en
+    que es posible definir algoritmos cuánticos cuya complejidad
+    temporal sea menor que sus análogos clásicos (conocidos hasta el
+    momento). En particular Shor realizó la descripción de un
+    algoritmo cuántico de complejidad temporal polinómica para la
+    factorización de números enteros.</p>
+
+    <h1>Prerrequisitos, intensidad semanal y número de créditos</h1>
+
+    <p>Se espera que los estudiantes hayan visto los cursos de Álgebra
+    Lineal y Matemáticas Especiales III.</p>
+
+    <p>El curso se ofrecerá bajo la modalidad de curso magistral, es
+    decir, el curso tendra una intensidad semanal de 4 horas durante
+    15 semanas. En caso de ser necesario (de acuerdo al número de
+    estudiantes matriculados) el curso se redefinirá como un curso
+    dirigido, es decir, el curso tendra una intensidad de 2 horas
+    semanales durante 15 semanas.</p>
+
+    <p>El curso será considerado como un curso de 4 créditos de libre
+    configuración para los estudiantes que se matriculen formalmente
+    en él.</p>
+
+    <h1>Programa propuesto</h1>
+
+    <p><strong>Objetivo general</strong></p>
+
+    <p>Comprender los modelos de computación cuántica con base en sus
+    fundamentos matemáticos, físicos e informáticos.</p>
+
+    <p><strong>Objetivos específicos</strong></p>
+    <ol>
+      <li><p>Observar la computaciónn cuántica desde los postulados de
+      la mecánica cuántica.</p></li>
+
+      <li><p>Desarrollar habilidades para la manipulación formal de
+      los elementos involucrados en la computación cuántica.</p></li>
+
+      <li><p>Establecer relaciones entre la computación cuántica y las
+      interpretaciones de la tesis de Church-Turing.</p></li>
+
+      <li><p>Manipular los algoritmos de Shor y de Grover y sus
+      implementaciones en diferentes simuladores de
+      computación.</p></li>
+
+      <li><p>Adquirir elementos conceptuales en diferentes tópicos
+      relacionados con la computación cuántica tales como:
+      implementación de máquinas cuánticas, criptografía cuántica,
+      teleportación, correción de errores, computación cuántica
+      autorrefencial, computación cuántica continua, etc.</p></li>
+    </ol>
+
+    <p><strong>Contenidos</strong></p>
+
+    <ol>
+      <li><p>Introducción a la computación cuántica (Rieffel and Polak
+      2000; Williams and Clearwater 1997; Shor 2000). Duración 4
+      horas.</p></li>
+
+      <li><p>Cuántica y computación: una aproximación desde los
+      postulados de la mecánica cuántica (Cohen-Tannoudji, Diu, and
+      Laloë 1997; Dirac 1967; Vélez Ruiz and Sicard Ramírez 1999;
+      Sicard Ramírez, Puerta Yepes, and Vélez Ruiz 1998). Duración 6
+      horas.</p></li>
+
+      <li><p>Circuitos cuánticos. Duración 14 horas.</p>
+      <p>3.1. Qubit, qubits, operadores de evolución, medidad
+      cuánticas, compuertas cuánticas, construcción de circuitos
+      cuánticos.</p>
+
+      <p>3.2. Reversivilidad y estados enredados
+      (<em>entanglement</em>).</p>
+
+      <p>3.3 Paralelismo cuántico: problema de Deutsch (Sicard, Vélez,
+      and Pérez 2002).</p> <p>3.4. Transformada cuántica de
+      Fourier.</p></li>
+
+      <li><p>Programación cuántica. Duración 12 horas.</p>
+      <p>4.1. <a href="http://tph.tuwien.ac.at/~oemer/qcl.html">QCL -
+      A Programming Language for Quantum Computers</a></p>
+
+      <p>4.2. <a
+      href="http://www.eng.buffalo.edu/~phygons/jaQuzzi/jaQuzzi.html">jaQuzzi
+      - Interactive Quantum Computation</a></p>
+
+      <p>4.3. <a href="http://www.compphys.org/QCE/">QCE - Quantum
+      Computer Emulator</a></p>
+
+      <p>4.4. <a
+      href="https://library.wolfram.com/infocenter/MathSource/657/">QuCalc:
+      A Quantum Computation Package for Mathematica 4.0</a></p>
+
+      <p>4.5. <a
+      href="http://en.wikipedia.org/wiki/Quantum_programming">Otros
+      lenguajes</a></p></li>
+
+      <li><p>Algoritmos cuánticos. Duración 12 horas.</p>
+      <p>5.1. Algoritmo de Shor: factorización de un número entero en
+      sus factores primos (Shor 1997; Volovich 2000).</p>
+
+      <p>5.2. Algoritmo de Grover: busqueda en una base de datos
+      desorganizada (Grover 1996; Grover 2001).</p></li>
+
+      <li><p>Tópicos relacionados con la computación
+      cuántica. Duración 10 horas.</p>
+
+      <p>6.1. Implementación de máquinas cuánticas (DiVincenzo 2000;
+      Vélez Ruiz and Sicard Ramírez 2000).</p>
+
+      <p>6.2. Criptografía cuántica.</p>
+
+      <p>6.3. Correción de errores.</p>
+
+      <p>6.4. Computación cuántica autorrefencial (Sicard Ramírez and
+      Vélez Ruiz 1999; Sicard 2001).</p>
+
+      <p>6.5. Computación cuántica continua (Sicard Ramírez and Vélez
+      Ruiz 2000; Vélez and Sicard 2000).</p>
+
+      <p>6.6. Computación cuántica geométrica (Vélez Ruiz and Sicard
+      Ramírez 2001–2002; Vélez Ruiz and Sicard Ramírez
+      2002–2003).</p></li>
+    </ol>
+
+    <h2>Profesores</h2>
+    <p><a href="https://asr.github.io">Andrés Sicard Ramírez</a> y
+    Mario Elkin Vélez Ruiz, miembros del grupo de Lógica y Computación
+    y profesores del Departamento de Ciencias Básicas de la
+    Universidad <a href="http://www.eafit.edu.co">EAFIT</a>.</p>
+
+    <h2>Referencias</h2>
+
+    <div>
+      Chuang, Isaac L., and Michael A. Nielsen. 2000. Quantum
+      Computation and Quantum information. Cambridge University Press.
+    </div>
+
+    <div>
+      Cohen-Tannoudji, Claude, Bernard Diu, and Franck Laloë. 1997.
+      Quantum Mechanics. Vol. 1. Hermann; John Wiley; Sons.
+    </div>
+
+    <div>
+      Dirac, P. A. M. 1967. Principios de Mecánica Cuántica.
+      Ediciones Arial.
+    </div>
+
+    <div>
+      DiVincenzo, David P. 2000. The Physical Implementation of Quantum
+      Computation. Fortschr. Phys. 48, no. 9–11: 771–83.
+    </div>
+
+    <div>
+      Grover, Lov K. 1996. A Fast Quantum Mechanical Algorithm for Database
+      Search. Proceedings of the twenty-eighth annual ACM symposium on
+      theory of computing (STOC ’96).
+    </div>
+
+    <div>
+      Grover, Lov K. 2001. From Schrödinger’s Equation to the Quantum
+      Search Algorithm.
+    </div>
+
+    <div>
+      Gruska, Jozef. 1999. Quantum Computing. McGraw-Hill
+      International (UK) Limited.
+    </div>
+
+    <div>
+      Rieffel, Eleanor, and Wolfgang Polak. 2000. An Introduction to
+      Quantum Computing for Non-Physicists. ACM Computing Surveys 32,
+      no. 3: 300–335. doi:<a
+      href="https://doi.org/10.1145/367701.367709">10.1145/367701.367709</a>.
+    </div>
+
+    <div>
+      Shor, Peter W. 1997. Polinomial-Time Algorithms for Prime
+      Factorization and Discrete Logarithms on a Quantum
+      Computer. SIAM Journal on Computing 26, no. 5: 1484–1509. doi:<a
+      href="https://doi.org/10.1137/S0097539795293172">10.1137/S0097539795293172</a>.
+    </div>
+
+    <div>
+      Shor, Peter W. 2000. Introduction to quantum algorithms.
+    </div>
+
+    <div>
+      Sicard, Andrés. 2001. Autorreferencia en el contexto de las
+      máquinas de Turing cuánticas. Talk.
+    </div>
+
+    <div>
+      Sicard, Andrés, and Mario Vélez. 1999. Algunos elementos
+      introductorios acerca de la computación cuántica. Talk.
+    </div>
+
+    <div>
+      Sicard, Andrés, Mario Vélez, and Carlos Pérez. 2002. Paralelismo
+      Cúantico: >El Problema de Deutsch.  Silicio 1, no. 14: 42–47.
+    </div>
+
+    <div>
+    Sicard Ramírez, Andrés, María Eugenia Puerta Yepes, and Mario
+    Elkin Vélez Ruiz. 1998. Lenguaje Subyacente a la Noción de Máquina
+    Cuántica.
+    </div>
+
+    <div>
+    Sicard Ramírez, Andrés, and Mario Elkin Vélez Ruiz. 1999.
+    ¿Máquina de Turing Cuántica Autorrefencial: Una Posibilidad?
+    </div>
+
+    <div>
+      Sicard Ramírez, Andrés, and Mario Elkin Vélez
+      Ruiz. 2000. Prototipo de un Modelo de Computación Cuántica
+      Continua.
+    </div>
+
+    <div>
+      Vélez, Mario, and Andrés Sicard. 2000. Computación Cuántica: Una
+      Perspectiva desde lo Continuo. Revista Universidad EAFIT
+      36, no. 118: 41–46.
+    </div>
+
+    <div>
+      Vélez Ruiz, Mario Elkin, and Andrés Sicard Ramírez. 2001–2002.
+      Computación Cuántica Geométrica.
+    </div>
+
+    <div>
+      Vélez Ruiz, Mario Elkin, and Andrés Sicard
+      Ramírez. 2002–2003. Computación Cuántica Geométrica No Abeliana.
+    </div>
+
+    <div>
+      Vélez Ruiz, Mario E., and Andrés Sicard Ramírez. 1999. Cuántica
+      y Computación: Una Aproximación Desde los Postulados de la
+      Mecánica Cuántica.
+    </div>
+
+    <div>
+      Vélez Ruiz, Mario E., and Andrés Sicard Ramírez. 2000. Sobre Algunos Modelos de Implementación para la Computación
+      Cuántica.
+    </div>
+
+    <div>
+      Volovich, I. V. 2000. Quantum Computing and Shor’s Factoring
+      Algorithm.
+    </div>
+
+    <div>
+      Williams, Colin P., and Scott H. Clearwater. 1997. Explorations in
+      Quantum Computing. Springer-Telos.
+    </div>
+
+    <hr/>
+
+    <div class="row">
+      <div class="column footer-left">
+        <a href="https://asr.github.io/index.html">Andrés
+        Sicard Ramírez</a>
+        <br/>
+        Última modificación: dom may 25 22:01:45 -05 2025
+      </div>
+
+      <div class="column footer-right">
+        <a
+        href="http://validator.w3.org/check?uri=referer"><img
+        src="http://www.w3.org/Icons/valid-xhtml11" alt="Valid XHTML
+        1.1" height="31" width="88" /></a>
+      </div>
+    </div>
+  </body>
 </html>

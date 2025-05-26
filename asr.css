@@ -1,11 +1,25 @@
+
+body {
+    background-color: lightsteelblue;
+}
+
+/* Links */
+/* New link */
+A:link {
+    color: darkblue;
+}
+
+/* Visited link */
+A:visited {
+    color: #303050;
+}
+
 /* Create two unequal columns that floats next to each other */
 .column {
     float: left;
 }
 
-
 /* Footer width 2 */
-
 .footer-left {
     width: 93%;
 }
