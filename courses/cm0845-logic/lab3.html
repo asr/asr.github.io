@@ -1,9 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!DOCTYPE html>
+<html lang="en-GB">
 
-<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Programming Lab 3</title>
   </head>
 
@@ -26,29 +26,29 @@
       <p>A substitution of terms for variables is a set</p>
 
       <pre>
-        <tt>&#123;x<sub>1</sub> &larr; t<sub>1</sub>, ..., x<sub>n</sub> &larr; t<sub>n</sub>&#125;</tt>
+        <code>&#123;x<sub>1</sub> &larr; t<sub>1</sub>, ..., x<sub>n</sub> &larr; t<sub>n</sub>&#125;</code>
       </pre>
 
-      <p>where each <tt>x<sub>i</sub></tt> is a distinct variable and each
-      <tt>t<sub>i</sub></tt> is a term which is not identical to the
-      corresponding variable <tt>x<sub>i</sub></tt>. The <tt>empty
-      substution</tt> is the empty set [Ben-Ari (2012), Definition 10.4].</p>
+      <p>where each <code>x<sub>i</sub></code> is a distinct variable and each
+      <code>t<sub>i</sub></code> is a term which is not identical to the
+      corresponding variable <code>x<sub>i</sub></code>. The <code>empty
+      substution</code> is the empty set [Ben-Ari (2012), Definition 10.4].</p>
 
-      <p>Let <tt>U = &#123;A<sub>1</sub>, ..., A<sub>n</sub>&#125;</tt> be a
-      set of atoms. A <tt>unifier &theta;</tt> is a substitution such that:</p>
+      <p>Let <code>U = &#123;A<sub>1</sub>, ..., A<sub>n</sub>&#125;</code> be a
+      set of atoms. A <code>unifier &theta;</code> is a substitution such that:</p>
       <pre>
-        <tt>A<sub>1</sub>&theta; = ... = A<sub>n</sub>&theta;.</tt>
+        <code>A<sub>1</sub>&theta; = ... = A<sub>n</sub>&theta;.</code>
       </pre>
 
-      <p>A <tt>most general unifier</tt> (MGU) for <tt>U</tt> is a unifier
-      <tt>&mu;</tt> such that any unifier <tt>&theta;</tt> of <tt>U</tt> can
+      <p>A <code>most general unifier</code> (MGU) for <code>U</code> is a unifier
+      <code>&mu;</code> such that any unifier <code>&theta;</code> of <code>U</code> can
       be expressed as:</p>
 
       <pre>
-        <tt>&theta; = &mu;&lambda;</tt>
+        <code>&theta; = &mu;&lambda;</code>
       </pre>
 
-     <p>for some substitution <tt>&lambda;</tt> [Ben-Ari (2012),
+     <p>for some substitution <code>&lambda;</code> [Ben-Ari (2012),
      Definition 10.11].</p>
     </div>
 
@@ -62,25 +62,25 @@
 
       <ul>
         <li>
-          <p> Haskell: The module <tt>FOL</tt> defines a data type for
+          <p> Haskell: The module <code>FOL</code> defines a data type for
           the atoms in FOL. This module can be found in the
            <a href="https://github.com/">GitHub</a>  repository <a href=
         "https://github.com/asr/logic-cm0845/tree/master/lab3">logic-cm0845-
         lab3</a>.
           </p>
 
-          Using the module <tt>FOL</tt>, define a function
+          Using the module <code>FOL</code>, define a function
           <pre>
-            <tt>unify :: Atom -> Atom -> [Atom]</tt>
+            <code>unify :: Atom -> Atom -> [Atom]</code>
           </pre>
           that returns a list with the atoms obtained after performing the
           substitution expressed by the MGU of the two given atoms in FOL.
         </li>
 
         <li>
-          Prolog: write a Prolog predicate <tt>unify(A1,A2,B)</tt> where
-          <tt>B</tt> is a list with the atoms obtained after performing the
-          substitution expressed by the MGU of <tt>A1</tt> and <tt>A2</tt>.
+          Prolog: write a Prolog predicate <code>unify(A1,A2,B)</code> where
+          <code>B</code> is a list with the atoms obtained after performing the
+          substitution expressed by the MGU of <code>A1</code> and <code>A2</code>.
         </li>
       </ul>
       </li>
@@ -122,8 +122,8 @@
 
     <div style="text-align: left;">
       <p>Submission is electronic. Send an email to
-      <tt>asr(at)eafit(dot)edu(dot)co</tt> and
-      <tt>dmonto39(at)eafit(dot)edu(dot)co</tt> and attach a
+      <code>asr(at)eafit(dot)edu(dot)co</code> and
+      <code>dmonto39(at)eafit(dot)edu(dot)co</code> and attach a
       compressed file (.zip or .tar.gz) with your solution.</p>
 
       <p>Your submission has to include the following:</p>
@@ -175,19 +175,11 @@
     <p>Ben-Ari, Mordechai (2012). Mathematical Logic for Computer
     Science. 3rd ed. Springer.</p>
 
-    <hr/>
+    <hr>
 
-    <table style="width:100%">
-      <tr>
-        <td><a href=
-        "https://asr.github.io/courses/cm0845-logic/">CM0845
-        Logic</a></td>
+    <footer>
+      <a href= "https://asr.github.io/courses/cm0845-logic/">CM08451 Logic</a>
+    </footer>
 
-        <td style="text-align:right;"><a
-        href="http://validator.w3.org/check?uri=referer"><img
-        src="http://www.w3.org/Icons/valid-xhtml11" alt="Valid XHTML
-        1.1" height="31" width="88" /></a></td>
-      </tr>
-    </table>
   </body>
 </html>
