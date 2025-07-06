@@ -1,0 +1,174 @@
+== Monads in .Net ==
+
+* Motivation.
+
+"Monads allow the programmer to chain actions together to
+build a pipeline, in which each action is decorated with
+additional processing rules provided by the monad." (1)
+
+(1) http://en.wikipedia.org/wiki/Monad_(functional_programming)
+
+"This paper identify one of such structures [relevant to a
+better understanding of programming languages], i.e. monads,
+but probably there are others just waiting to be
+discovered." (2)
+
+(2) Eugenio Moggi. Notions of computation and monads.
+
+* Problems on learning about monads
+
+Intimidating:
+
+"The name [Monad] is very off-putting because it comes from
+something mathematical.  I'm on record as saying we should
+have called them warm, fuzzy things."(1)
+
+"Several folk have pointed me at this, since Haskell and
+myself get a mention. I'm delighted to learn that "a monad
+is a monoid in the category of endofunctors"---anyone know
+where I can find a good tutorial?"(2)
+
+"Monads are like burritos..."(3)
+
+(1) Interview to Simon Peyton Jones:
+http://www.dotnetrocks.com/text/0310/index11.html
+
+(2) In Philip Wadler's blog:
+http://wadler.blogspot.com/2009/05/brief-incomplete-and-mostly-wrong.html
+
+(3) Brent Yorgey. Abstraction, intuition, and the “monad
+tutorial fallacy”
+http://byorgey.wordpress.com/2009/01/12/abstraction-intuition-and-the-monad-tutorial-fallacy/
+
+
+* What's a Monad?
+
+** Simple definition
+*** Haskell Version:
+
+    class Monad m where
+        return :: a -> m a
+        (>>=)  :: m a -> (a -> m b) -> m b
+
+        (>>)   :: m a -> m b -> m b
+        m >> n = m >>= \_ -> n               -- Not necessary
+
+        fail   :: String -> m a              -- An awful hack!(1)
+
+    (1) The Monad Reader. Typeclassopedia
+    http://www.haskell.org/haskellwiki/The_Monad.Reader
+
+*** Simplified version:
+
+    class Monad m where
+        return :: a -> m a
+        (>>=)  :: m a -> (a -> m b) -> m b
+
+*** Another version:
+
+    class Applicative f where
+        pure :: a -> f a
+        (<*>) :: f (a -> b) -> f a -> f b
+
+    class Applicative m => Monad’’ m where
+        join :: m (m a) -> m a
+
+** Laws
+
+   1. "Left identity":  return a >>= f  ≡  f a
+   2. "Right identity": m >>= return  ≡  m
+   3. "Associativity": (m >>= f) >>= g  ≡  m >>= (\x -> f x >>= g)
+
+      From: http://www.haskell.org/haskellwiki/Monad_Laws
+
+*** More naturally:
+    (f >=> g) >=> h ≡ f >=> (g >=> h)
+
+    Where (>=>) is the kleisli composition operator with type:
+
+    (Monad m) => (a -> m b) -> (b -> m c) -> a -> m c
+
+    Equivalent to >>> for kleisi arrows.
+
+
+* The Identity Monad:
+
+  "The Identity monad is a monad that does not embody any
+  computational strategy" (1)
+
+  (1) http://www.haskell.org/all_about_monads/html/identitymonad.html
+
+** In Haskell:
+
+    newtype Identity a = Identity { runIdentity :: a }
+
+    instance Monad Identity where
+        return a           = Identity a
+        (Identity x) >>= f = f x
+
+** In C#
+
+   Before the real example, let's check some of the features
+   added in C# 3.0
+   file://~/Documents/dotnet/Intro/Example.cs
+
+   And the real implementation:
+   file://~/Documents/dotnet/IdentityA/Example2.cs
+
+   Based on: http://blogs.msdn.com/wesdyer/archive/2008/01/11/the-marvels-of-monads.aspx
+
+** In F#
+
+   file://~/Documents/dotnet/IdentityB/Example.fs
+
+* Maybe Monad:
+
+  "Computations which may return Nothing"
+
+** In C#
+
+   file:/~/Documents/dotnet/MaybeA/Example3.cs
+
+** In F#
+
+   file:/~/Documents/dotnet/MaybeB/Example.fs
+
+* Reader Monad:
+
+  "Computations which read values from a shared environment."
+
+** In F#
+
+   file:/~/Documents/dotnet/Reader/Reader.fs
+
+* "List" Monad:
+
+Building computations from sequences of non-deterministic
+operations. Parsing ambiguous grammars is a common example.
+
+** In C#
+
+   file:/~/Documents/dotnet/List/List.cs
+
+
+* State Monad
+
+Computations which maintain state.
+
+** In F#
+
+   file:/~/Documents/dotnet/State/State.fs
+
+* Monads in the "Real World"
+
+** ITasks http://wiki.clean.cs.ru.nl/ITasks
+   Uses monads for compositional workflow definition.
+
+** Eric Meijer, Live Labs reactive framework.
+   http://langnetsymposium.com/2009/talks/
+   Uses Linq (not sure if it's actually a monad) to do
+   reactive programming.
+
+
+** Asynchronous Workflows
+   http://blogs.msdn.com/dsyme/archive/2007/10/11/introducing-f-asynchronous-workflows.aspx
