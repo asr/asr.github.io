@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Some Algorithms on Regular Expressions</title>
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -22,8 +25,9 @@
     }
     .display.math{display: block; text-align: center; margin: 0.5rem auto;}
     /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -93,7 +97,7 @@
 <h1 class="title">Some Algorithms on Regular Expressions</h1>
 </header>
 <p>Adapted from a course by Thierry Coquand.</p>
-<p>Tested with GHC 9.8.2.</p>
+<p>Tested with GHC 9.12.2.</p>
 <h2 id="a-polymorphic-regular-expression-data-type">A polymorphic
 regular expression data type</h2>
 <div class="sourceCode" id="cb1"><pre
@@ -224,9 +228,9 @@ class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="c
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>      <span class="ot">`Dot`</span> _0</span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>      <span class="ot">`Dot`</span> universe</span></code></pre></div>
 <hr />
-<p>Generated with <a href="http://pandoc.org/">pandoc</a> 3.1.11.1 and
-<a href="https://gist.github.com/killercup/5917178">pandoc.css</a>
-running the following command:</p>
+<p>Generated with <a href="https://pandoc.org/">pandoc</a> 3.9 and <a
+href="https://gist.github.com/killercup/5917178">pandoc.css</a> running
+the following command:</p>
 <div class="sourceCode" id="cb13"><pre
 class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> pandoc <span class="at">-f</span> markdown+lhs <span class="dt">\</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">-s</span> <span class="dt">\</span></span>

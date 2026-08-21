@@ -2,7 +2,7 @@
 
 Adapted from a course by Thierry Coquand.
 
-Tested with GHC 9.8.2.
+Tested with GHC 9.12.2.
 
 A polymorphic regular expression data type
 ------------------------------------------
@@ -172,7 +172,7 @@ re3 = universe
 
 * * * * *
 
-Generated with [pandoc](http://pandoc.org/) 3.1.11.1 and
+Generated with [pandoc](https://pandoc.org/) 3.9 and
 [pandoc.css](https://gist.github.com/killercup/5917178) running the
 following command:
 
